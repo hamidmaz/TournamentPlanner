@@ -1,0 +1,10 @@
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\bin\Debug\PlannerUI.exe.config
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\bin\Debug\PlannerUI.exe
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\bin\Debug\PlannerUI.pdb
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.csprojAssemblyReference.cache
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.Properties.Resources.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.TournamentViewerForm.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.csproj.GenerateResource.cache
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.csproj.CoreCompileInputs.cache
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.exe
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.pdb

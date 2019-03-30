@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannedLibrary", "PlannedLibrary\PlannedLibrary.csproj", "{D532EF5C-B0F8-44B0-BC31-8A0E5296CB93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerUI", "PlannerUI\PlannerUI.csproj", "{B2AAF26B-08E3-4B45-B0C8-FC8C1ACBD4D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D532EF5C-B0F8-44B0-BC31-8A0E5296CB93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D532EF5C-B0F8-44B0-BC31-8A0E5296CB93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D532EF5C-B0F8-44B0-BC31-8A0E5296CB93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D532EF5C-B0F8-44B0-BC31-8A0E5296CB93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2AAF26B-08E3-4B45-B0C8-FC8C1ACBD4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2AAF26B-08E3-4B45-B0C8-FC8C1ACBD4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2AAF26B-08E3-4B45-B0C8-FC8C1ACBD4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2AAF26B-08E3-4B45-B0C8-FC8C1ACBD4D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38A49778-8C24-4545-B385-50814D40A56C}
+	EndGlobalSection
+EndGlobal
