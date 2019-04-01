@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalConfig.cs" />
+    <Compile Include="IDataConnection.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchEntry.cs" />
     <Compile Include="Player.cs" />
