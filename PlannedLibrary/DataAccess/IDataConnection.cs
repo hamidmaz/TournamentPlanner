@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PlannedLibrary.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlannedLibrary
+namespace PlannedLibrary.DataAccess
 {
     public interface IDataConnection
     {
@@ -13,6 +14,6 @@ namespace PlannedLibrary
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Prize CreatPrize(Prize model);
+        Prize CreatePrize(Prize model);
     }
 }

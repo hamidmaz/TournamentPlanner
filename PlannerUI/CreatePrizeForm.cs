@@ -1,4 +1,5 @@
 ﻿using PlannedLibrary;
+using PlannedLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,10 +29,8 @@ namespace PlannerUI
                     prizeAmountTextBox.Text,
                     prizePercentageTextBox.Text);
 
-                foreach (var  db in GlobalConfig.Connections)
-                {
-                    db.CreatPrize(model);
-                }
+                GlobalConfig.Connection.CreatePrize(model);
+                
                 CleanFields();
             }
             else

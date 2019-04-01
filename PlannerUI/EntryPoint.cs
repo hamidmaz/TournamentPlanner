@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlannedLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace PlannerUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize the dataBase
-            PlannedLibrary.GlobalConfig.InitializeConnections(database: true, textFile: true);
+            PlannedLibrary.GlobalConfig.InitializeConnections(DatabaseType.SQL);
 
             Application.Run(new CreatePrizeForm());
 

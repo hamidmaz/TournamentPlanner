@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PlannedLibrary.Models;
 
-namespace PlannedLibrary
+namespace PlannedLibrary.DataAccess
 {
-    public class SqlConnector : IDataConnection
+    public class TextFileConnector : IDataConnection
     {
-        // TODO impelement CreatePrize to save new prize to sql
+        // TODO impelement CreatePrize to save new prize to text file
         /// <summary>
-        /// Save the new prize to the database and pass it with its unique identifier
+        /// Save the new prize to a txt file and pass it with its unique identifier
         /// </summary>
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
-        public Prize CreatPrize(Prize model)
+        public Prize CreatePrize(Prize model)
         {
             throw new NotImplementedException();
         }
+        
     }
 }

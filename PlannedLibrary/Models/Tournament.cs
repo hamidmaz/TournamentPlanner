@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PlannedLibrary
+namespace PlannedLibrary.Models
 {
     public class Tournament
     {
