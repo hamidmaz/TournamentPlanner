@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreatePrize.cs">
+    <Compile Include="CreatePrizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreatePrize.Designer.cs">
-      <DependentUpon>CreatePrize.cs</DependentUpon>
+    <Compile Include="CreatePrizeForm.Designer.cs">
+      <DependentUpon>CreatePrizeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CreateTeamForm.cs">
       <SubType>Form</SubType>
@@ -76,10 +76,10 @@
     <Compile Include="TournamentViewerForm.Designer.cs">
       <DependentUpon>TournamentViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CreatePrize.resx">
-      <DependentUpon>CreatePrize.cs</DependentUpon>
+    <EmbeddedResource Include="CreatePrizeForm.resx">
+      <DependentUpon>CreatePrizeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateTeamForm.resx">
       <DependentUpon>CreateTeamForm.cs</DependentUpon>
@@ -114,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlannedLibrary\PlannedLibrary.csproj">
+      <Project>{d532ef5c-b0f8-44b0-bc31-8a0e5296cb93}</Project>
+      <Name>PlannedLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

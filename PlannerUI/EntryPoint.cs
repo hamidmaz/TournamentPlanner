@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace PlannerUI
 {
-    static class Program
+    static class EntryPoint
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,13 @@ namespace PlannerUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TournamentDashboardForm());
+
+            // Initialize the dataBase
+            PlannedLibrary.GlobalConfig.InitializeConnections(database: true, textFile: true);
+
+            Application.Run(new CreatePrizeForm());
+
+            //Application.Run(new TournamentDashboardForm());
         }
     }
 }

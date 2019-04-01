@@ -1,6 +1,6 @@
 ﻿namespace PlannerUI
 {
-    partial class CreatePrize
+    partial class CreatePrizeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.createPrizeButton = new System.Windows.Forms.Button();
-            this.teamNameTextBox = new System.Windows.Forms.TextBox();
+            this.placeNumberTextBox = new System.Windows.Forms.TextBox();
             this.placeNumberLabel = new System.Windows.Forms.Label();
             this.headerLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.placeNameTextBox = new System.Windows.Forms.TextBox();
             this.placeNameLabel = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.PrizePercentageLabel = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.prizePercentageTextBox = new System.Windows.Forms.TextBox();
+            this.prizePercentageLabel = new System.Windows.Forms.Label();
+            this.prizeAmountTextBox = new System.Windows.Forms.TextBox();
             this.prizeAmountLabel = new System.Windows.Forms.Label();
-            this.orlabel = new System.Windows.Forms.Label();
+            this.orLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // createPrizeButton
@@ -53,15 +53,16 @@
             this.createPrizeButton.TabIndex = 25;
             this.createPrizeButton.Text = "Create prize";
             this.createPrizeButton.UseVisualStyleBackColor = true;
+            this.createPrizeButton.Click += new System.EventHandler(this.createPrizeButton_Click);
             // 
-            // teamNameTextBox
+            // placeNumberTextBox
             // 
-            this.teamNameTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.teamNameTextBox.Location = new System.Drawing.Point(208, 76);
-            this.teamNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.teamNameTextBox.Name = "teamNameTextBox";
-            this.teamNameTextBox.Size = new System.Drawing.Size(160, 38);
-            this.teamNameTextBox.TabIndex = 22;
+            this.placeNumberTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.placeNumberTextBox.Location = new System.Drawing.Point(208, 76);
+            this.placeNumberTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.placeNumberTextBox.Name = "placeNumberTextBox";
+            this.placeNumberTextBox.Size = new System.Drawing.Size(160, 38);
+            this.placeNumberTextBox.TabIndex = 22;
             // 
             // placeNumberLabel
             // 
@@ -85,14 +86,14 @@
             this.headerLabel.TabIndex = 20;
             this.headerLabel.Text = "Create Prize:";
             // 
-            // textBox1
+            // placeNameTextBox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(208, 123);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(160, 38);
-            this.textBox1.TabIndex = 27;
+            this.placeNameTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.placeNameTextBox.Location = new System.Drawing.Point(208, 123);
+            this.placeNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.placeNameTextBox.Name = "placeNameTextBox";
+            this.placeNameTextBox.Size = new System.Drawing.Size(160, 38);
+            this.placeNameTextBox.TabIndex = 27;
             // 
             // placeNameLabel
             // 
@@ -105,34 +106,36 @@
             this.placeNameLabel.TabIndex = 26;
             this.placeNameLabel.Text = "Place name";
             // 
-            // textBox2
+            // prizePercentageTextBox
             // 
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(208, 255);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(160, 38);
-            this.textBox2.TabIndex = 31;
+            this.prizePercentageTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prizePercentageTextBox.Location = new System.Drawing.Point(208, 255);
+            this.prizePercentageTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.prizePercentageTextBox.Name = "prizePercentageTextBox";
+            this.prizePercentageTextBox.Size = new System.Drawing.Size(160, 38);
+            this.prizePercentageTextBox.TabIndex = 31;
+            this.prizePercentageTextBox.Text = "0";
             // 
-            // PrizePercentageLabel
+            // prizePercentageLabel
             // 
-            this.PrizePercentageLabel.AutoSize = true;
-            this.PrizePercentageLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PrizePercentageLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.PrizePercentageLabel.Location = new System.Drawing.Point(21, 255);
-            this.PrizePercentageLabel.Name = "PrizePercentageLabel";
-            this.PrizePercentageLabel.Size = new System.Drawing.Size(193, 32);
-            this.PrizePercentageLabel.TabIndex = 30;
-            this.PrizePercentageLabel.Text = "Prize percentage";
+            this.prizePercentageLabel.AutoSize = true;
+            this.prizePercentageLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prizePercentageLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.prizePercentageLabel.Location = new System.Drawing.Point(21, 255);
+            this.prizePercentageLabel.Name = "prizePercentageLabel";
+            this.prizePercentageLabel.Size = new System.Drawing.Size(193, 32);
+            this.prizePercentageLabel.TabIndex = 30;
+            this.prizePercentageLabel.Text = "Prize percentage";
             // 
-            // textBox3
+            // prizeAmountTextBox
             // 
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(208, 172);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(160, 38);
-            this.textBox3.TabIndex = 29;
+            this.prizeAmountTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prizeAmountTextBox.Location = new System.Drawing.Point(208, 172);
+            this.prizeAmountTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.prizeAmountTextBox.Name = "prizeAmountTextBox";
+            this.prizeAmountTextBox.Size = new System.Drawing.Size(160, 38);
+            this.prizeAmountTextBox.TabIndex = 29;
+            this.prizeAmountTextBox.Text = "0";
             // 
             // prizeAmountLabel
             // 
@@ -145,36 +148,36 @@
             this.prizeAmountLabel.TabIndex = 28;
             this.prizeAmountLabel.Text = "Prize amount";
             // 
-            // orlabel
+            // orLabel
             // 
-            this.orlabel.AutoSize = true;
-            this.orlabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.orlabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.orlabel.Location = new System.Drawing.Point(158, 216);
-            this.orlabel.Name = "orlabel";
-            this.orlabel.Size = new System.Drawing.Size(57, 32);
-            this.orlabel.TabIndex = 32;
-            this.orlabel.Text = "-or-";
+            this.orLabel.AutoSize = true;
+            this.orLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.orLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.orLabel.Location = new System.Drawing.Point(158, 216);
+            this.orLabel.Name = "orLabel";
+            this.orLabel.Size = new System.Drawing.Size(57, 32);
+            this.orLabel.TabIndex = 32;
+            this.orLabel.Text = "-or-";
             // 
-            // CreatePrize
+            // CreatePrizeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(418, 461);
-            this.Controls.Add(this.orlabel);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.PrizePercentageLabel);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.orLabel);
+            this.Controls.Add(this.prizePercentageTextBox);
+            this.Controls.Add(this.prizePercentageLabel);
+            this.Controls.Add(this.prizeAmountTextBox);
             this.Controls.Add(this.prizeAmountLabel);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.placeNameTextBox);
             this.Controls.Add(this.placeNameLabel);
             this.Controls.Add(this.createPrizeButton);
-            this.Controls.Add(this.teamNameTextBox);
+            this.Controls.Add(this.placeNumberTextBox);
             this.Controls.Add(this.placeNumberLabel);
             this.Controls.Add(this.headerLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.Name = "CreatePrize";
+            this.Name = "CreatePrizeForm";
             this.Text = "Create Prize";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -184,15 +187,15 @@
         #endregion
 
         private System.Windows.Forms.Button createPrizeButton;
-        private System.Windows.Forms.TextBox teamNameTextBox;
+        private System.Windows.Forms.TextBox placeNumberTextBox;
         private System.Windows.Forms.Label placeNumberLabel;
         private System.Windows.Forms.Label headerLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox placeNameTextBox;
         private System.Windows.Forms.Label placeNameLabel;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label PrizePercentageLabel;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox prizePercentageTextBox;
+        private System.Windows.Forms.Label prizePercentageLabel;
+        private System.Windows.Forms.TextBox prizeAmountTextBox;
         private System.Windows.Forms.Label prizeAmountLabel;
-        private System.Windows.Forms.Label orlabel;
+        private System.Windows.Forms.Label orLabel;
     }
 }

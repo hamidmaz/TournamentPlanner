@@ -1,0 +1,6 @@
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\bin\Debug\PlannedLibrary.dll
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\bin\Debug\PlannedLibrary.pdb
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\obj\Debug\PlannedLibrary.csprojAssemblyReference.cache
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\obj\Debug\PlannedLibrary.csproj.CoreCompileInputs.cache
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\obj\Debug\PlannedLibrary.dll
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannedLibrary\obj\Debug\PlannedLibrary.pdb

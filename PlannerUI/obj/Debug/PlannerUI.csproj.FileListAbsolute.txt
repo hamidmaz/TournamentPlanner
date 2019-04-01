@@ -8,3 +8,10 @@ C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerU
 C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.csproj.CoreCompileInputs.cache
 C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.exe
 C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.pdb
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\bin\Debug\PlannedLibrary.dll
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\bin\Debug\PlannedLibrary.pdb
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.CreatePrizeForm.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.CreateTeamForm.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.CreatTournamentForm.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.TournamentDashboardForm.resources
+C:\Users\A551285\Documents\GitHub\TournamentPlanner\PlannerUI\obj\Debug\PlannerUI.csproj.CopyComplete
