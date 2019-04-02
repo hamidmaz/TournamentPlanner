@@ -11,7 +11,6 @@ namespace PlannedLibrary.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
-        // TODO impelement CreatePrize to save new prize to sql
         /// <summary>
         /// Save the new prize to the database and pass it with its unique identifier
         /// </summary>

@@ -9,6 +9,7 @@ namespace PlannedLibrary
     public enum DatabaseType
     {
         SQL,
+        PostgreSQL,
         textFile
     }
 }

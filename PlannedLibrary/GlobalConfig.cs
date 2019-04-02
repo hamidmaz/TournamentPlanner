@@ -17,9 +17,16 @@ namespace PlannedLibrary
             // TIDO make enum for connectionType
             switch (connectionType)
             {
+                case DatabaseType.PostgreSQL:
+                    {
+                        
+                        PostgreSQLConnector pgSql = new PostgreSQLConnector();
+                        Connection = pgSql;
+                        break;
+                    }
                 case DatabaseType.SQL:
                     {
-                        //TODO creat SQL connection
+                        
                         SqlConnector sql = new SqlConnector();
                         Connection = sql;
                         break;
