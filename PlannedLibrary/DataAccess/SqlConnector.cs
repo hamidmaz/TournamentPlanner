@@ -39,5 +39,10 @@ namespace PlannedLibrary.DataAccess
                 return model;
             }
         }
+
+        public Player CreatePlayer(Player model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

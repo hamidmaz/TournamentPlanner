@@ -15,5 +15,6 @@ namespace PlannedLibrary.DataAccess
         /// <param name="model"></param>
         /// <returns></returns>
         Prize CreatePrize(Prize model);
+        Player CreatePlayer(Player model);
     }
 }

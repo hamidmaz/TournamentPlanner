@@ -81,5 +81,42 @@ namespace PlannedLibrary.DataAccess
 
 
         }
+
+        // TODO implement the following
+
+        public Player CreatePlayer(Player model)
+        {
+            using (var connection = new NpgsqlConnection("Host=localhost;Username=postgres;Password=hamidma1367;Database=Tournaments"))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spPeople_Insert\"", connection);
+
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("FirstName", model.FirstName);
+                command.Parameters.AddWithValue("LastName", model.LastName);
+                command.Parameters.AddWithValue("EmailAddress", model.EmailAddress);
+                command.Parameters.AddWithValue("CellphoneNumber", model.CellphoneNr);
+
+
+                // Execute the procedure and obtain a result set
+                //NpgsqlDataReader dr = command.ExecuteReader();
+                // if it returns a single value, use ExecuteScalar!
+                int newId = Convert.ToInt32(command.ExecuteScalar());
+
+                tran.Commit();
+                connection.Close();
+
+                model.Id = newId;
+                return model;
+            }
+        }
     }
 }

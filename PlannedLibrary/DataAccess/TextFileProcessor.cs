@@ -83,13 +83,9 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             foreach (string line in lines)
             {
                 string[] cols = line.Split(',');
-                Player p = new Player();
+                Player p = new Player(cols[1], cols[2], cols[3], cols[4]);
                 p.Id = Convert.ToInt32(cols[0]);
-                p.FirstName = cols[1];
-                p.LastName = cols[2];
-                p.EmailAddress = cols[3];
-                p.CellphoneNr = cols[4];
-
+                
                 outputList.Add(p);
             }
             return outputList;

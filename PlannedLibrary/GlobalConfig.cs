@@ -33,7 +33,6 @@ namespace PlannedLibrary
                     }
                 case DatabaseType.TextFile:
                     {
-                        //TODO creat text file connection
                         TextFileConnector txt = new TextFileConnector();
                         Connection = txt;
                         break;

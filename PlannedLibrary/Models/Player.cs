@@ -2,6 +2,8 @@
 {
     public class Player
     {
+        
+
         /// <summary>
         /// The unique identifier for the prize
         /// </summary>
@@ -19,6 +21,16 @@
         /// </summary>
         public string CellphoneNr { get; set; }
 
+        
 
+        public Player(string firstName, string lastName, string emailAddress, string cellphoneNr)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = emailAddress;
+            CellphoneNr = cellphoneNr;
+        }
+
+        
     }
 }

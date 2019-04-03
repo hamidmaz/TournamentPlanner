@@ -10,7 +10,6 @@ namespace PlannedLibrary.DataAccess
 {
     public class TextFileConnector : IDataConnection
     {
-        // TODO impelement CreatePrize to save new prize to text file
         /// <summary>
         /// Save the new prize to a txt file and pass it with its unique identifier
         /// </summary>
@@ -40,6 +39,11 @@ namespace PlannedLibrary.DataAccess
             prizesList.ConvertPrizesToString().SaveFile(PrizeFileName);
             return model;
         }
-        
+
+        // TODO implement the following
+        public Player CreatePlayer(Player model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

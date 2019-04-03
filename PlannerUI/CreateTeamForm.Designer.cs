@@ -35,15 +35,15 @@
             this.selectPlayerComboBox = new System.Windows.Forms.ComboBox();
             this.addTeamMemberLabel = new System.Windows.Forms.Label();
             this.addNewPlayerGroupBox = new System.Windows.Forms.GroupBox();
-            this.firstNameLabel = new System.Windows.Forms.Label();
-            this.firstNameTextBox = new System.Windows.Forms.TextBox();
-            this.lastNameLabel = new System.Windows.Forms.Label();
-            this.lastNameTextBox = new System.Windows.Forms.TextBox();
-            this.emailLabel = new System.Windows.Forms.Label();
-            this.emailTextBox = new System.Windows.Forms.TextBox();
+            this.addNewplayerButton = new System.Windows.Forms.Button();
             this.mobileNrLabel = new System.Windows.Forms.Label();
             this.mobileNrTextBox = new System.Windows.Forms.TextBox();
-            this.addNewplayerButton = new System.Windows.Forms.Button();
+            this.emailLabel = new System.Windows.Forms.Label();
+            this.emailTextBox = new System.Windows.Forms.TextBox();
+            this.lastNameLabel = new System.Windows.Forms.Label();
+            this.lastNameTextBox = new System.Windows.Forms.TextBox();
+            this.firstNameLabel = new System.Windows.Forms.Label();
+            this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.teamMembersListBox = new System.Windows.Forms.ListBox();
             this.deleteSelectedTeamMembersButton = new System.Windows.Forms.Button();
             this.createTeamButton = new System.Windows.Forms.Button();
@@ -133,25 +133,57 @@
             this.addNewPlayerGroupBox.TabStop = false;
             this.addNewPlayerGroupBox.Text = "Add new player";
             // 
-            // firstNameLabel
+            // addNewplayerButton
             // 
-            this.firstNameLabel.AutoSize = true;
-            this.firstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.firstNameLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.firstNameLabel.Location = new System.Drawing.Point(11, 51);
-            this.firstNameLabel.Name = "firstNameLabel";
-            this.firstNameLabel.Size = new System.Drawing.Size(103, 25);
-            this.firstNameLabel.TabIndex = 6;
-            this.firstNameLabel.Text = "First name";
+            this.addNewplayerButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addNewplayerButton.Location = new System.Drawing.Point(76, 233);
+            this.addNewplayerButton.Margin = new System.Windows.Forms.Padding(4);
+            this.addNewplayerButton.Name = "addNewplayerButton";
+            this.addNewplayerButton.Size = new System.Drawing.Size(209, 41);
+            this.addNewplayerButton.TabIndex = 14;
+            this.addNewplayerButton.Text = "Add new player";
+            this.addNewplayerButton.UseVisualStyleBackColor = true;
+            this.addNewplayerButton.Click += new System.EventHandler(this.addNewplayerButton_Click);
             // 
-            // firstNameTextBox
+            // mobileNrLabel
             // 
-            this.firstNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.firstNameTextBox.Location = new System.Drawing.Point(153, 48);
-            this.firstNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.firstNameTextBox.Name = "firstNameTextBox";
-            this.firstNameTextBox.Size = new System.Drawing.Size(201, 30);
-            this.firstNameTextBox.TabIndex = 5;
+            this.mobileNrLabel.AutoSize = true;
+            this.mobileNrLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mobileNrLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.mobileNrLabel.Location = new System.Drawing.Point(11, 189);
+            this.mobileNrLabel.Name = "mobileNrLabel";
+            this.mobileNrLabel.Size = new System.Drawing.Size(100, 25);
+            this.mobileNrLabel.TabIndex = 17;
+            this.mobileNrLabel.Text = "Mobile Nr.";
+            // 
+            // mobileNrTextBox
+            // 
+            this.mobileNrTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mobileNrTextBox.Location = new System.Drawing.Point(153, 184);
+            this.mobileNrTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mobileNrTextBox.Name = "mobileNrTextBox";
+            this.mobileNrTextBox.Size = new System.Drawing.Size(201, 30);
+            this.mobileNrTextBox.TabIndex = 16;
+            // 
+            // emailLabel
+            // 
+            this.emailLabel.AutoSize = true;
+            this.emailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.emailLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.emailLabel.Location = new System.Drawing.Point(11, 141);
+            this.emailLabel.Name = "emailLabel";
+            this.emailLabel.Size = new System.Drawing.Size(140, 25);
+            this.emailLabel.TabIndex = 13;
+            this.emailLabel.Text = "Email address ";
+            // 
+            // emailTextBox
+            // 
+            this.emailTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.emailTextBox.Location = new System.Drawing.Point(153, 138);
+            this.emailTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.emailTextBox.Name = "emailTextBox";
+            this.emailTextBox.Size = new System.Drawing.Size(201, 30);
+            this.emailTextBox.TabIndex = 12;
             // 
             // lastNameLabel
             // 
@@ -174,56 +206,25 @@
             this.lastNameTextBox.Size = new System.Drawing.Size(201, 30);
             this.lastNameTextBox.TabIndex = 8;
             // 
-            // emailLabel
+            // firstNameLabel
             // 
-            this.emailLabel.AutoSize = true;
-            this.emailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.emailLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.emailLabel.Location = new System.Drawing.Point(11, 141);
-            this.emailLabel.Name = "emailLabel";
-            this.emailLabel.Size = new System.Drawing.Size(140, 25);
-            this.emailLabel.TabIndex = 13;
-            this.emailLabel.Text = "Email address ";
+            this.firstNameLabel.AutoSize = true;
+            this.firstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.firstNameLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.firstNameLabel.Location = new System.Drawing.Point(11, 51);
+            this.firstNameLabel.Name = "firstNameLabel";
+            this.firstNameLabel.Size = new System.Drawing.Size(103, 25);
+            this.firstNameLabel.TabIndex = 6;
+            this.firstNameLabel.Text = "First name";
             // 
-            // emailTextBox
+            // firstNameTextBox
             // 
-            this.emailTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.emailTextBox.Location = new System.Drawing.Point(153, 138);
-            this.emailTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.emailTextBox.Name = "emailTextBox";
-            this.emailTextBox.Size = new System.Drawing.Size(201, 30);
-            this.emailTextBox.TabIndex = 12;
-            // 
-            // mobileNrLabel
-            // 
-            this.mobileNrLabel.AutoSize = true;
-            this.mobileNrLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mobileNrLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.mobileNrLabel.Location = new System.Drawing.Point(11, 189);
-            this.mobileNrLabel.Name = "mobileNrLabel";
-            this.mobileNrLabel.Size = new System.Drawing.Size(100, 25);
-            this.mobileNrLabel.TabIndex = 17;
-            this.mobileNrLabel.Text = "Mobile Nr.";
-            // 
-            // mobileNrTextBox
-            // 
-            this.mobileNrTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mobileNrTextBox.Location = new System.Drawing.Point(153, 184);
-            this.mobileNrTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.mobileNrTextBox.Name = "mobileNrTextBox";
-            this.mobileNrTextBox.Size = new System.Drawing.Size(201, 30);
-            this.mobileNrTextBox.TabIndex = 16;
-            // 
-            // addNewplayerButton
-            // 
-            this.addNewplayerButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addNewplayerButton.Location = new System.Drawing.Point(76, 233);
-            this.addNewplayerButton.Margin = new System.Windows.Forms.Padding(4);
-            this.addNewplayerButton.Name = "addNewplayerButton";
-            this.addNewplayerButton.Size = new System.Drawing.Size(209, 41);
-            this.addNewplayerButton.TabIndex = 14;
-            this.addNewplayerButton.Text = "Add new player";
-            this.addNewplayerButton.UseVisualStyleBackColor = true;
+            this.firstNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.firstNameTextBox.Location = new System.Drawing.Point(153, 48);
+            this.firstNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.firstNameTextBox.Name = "firstNameTextBox";
+            this.firstNameTextBox.Size = new System.Drawing.Size(201, 30);
+            this.firstNameTextBox.TabIndex = 5;
             // 
             // teamMembersListBox
             // 
