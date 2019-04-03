@@ -14,7 +14,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
 {
     public static class TextFileProcessor
     {
-        // this keyword in the input make the method an extension for 
+        // "this" keyword in the input make the method an extension for 
         //string type which is only available in this namespace
         public static string FullFilePath (this string fileName)
         {
@@ -55,12 +55,8 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             foreach (string line in lines)
             {
                 string[] cols = line.Split(',');
-                Prize p = new Prize();
+                Prize p = new Prize(cols[1], cols[2], cols[3], cols[4]);
                 p.Id = Convert.ToInt32(cols[0]);
-                p.PlaceNumber = Convert.ToInt32(cols[1]);
-                p.PlaceName = cols[2];
-                p.Amount = Convert.ToDecimal(cols[3]);
-                p.Percentage = Convert.ToDouble(cols[4]);
 
                 outputList.Add(p);
             }
@@ -77,7 +73,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputStringList;
         }
 
-        public static List<Player> ConvertToPlayer(this List<string> lines)
+        public static List<Player> ConvertToPlayers(this List<string> lines)
         {
             List<Player> outputList = new List<Player>();
             foreach (string line in lines)
@@ -91,7 +87,15 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputList;
         }
 
-
+        public static List<string> ConvertPlayersToString(this List<Player> playersList)
+        {
+            List<string> outputStringList = new List<string>();
+            foreach (Player p in playersList)
+            {
+                outputStringList.Add($"{p.Id},{p.FirstName},{p.LastName},{p.EmailAddress},{p.CellphoneNr}");
+            }
+            return outputStringList;
+        }
 
 
 

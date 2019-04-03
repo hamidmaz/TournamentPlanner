@@ -82,8 +82,6 @@ namespace PlannedLibrary.DataAccess
 
         }
 
-        // TODO implement the following
-
         public Player CreatePlayer(Player model)
         {
             using (var connection = new NpgsqlConnection("Host=localhost;Username=postgres;Password=hamidma1367;Database=Tournaments"))

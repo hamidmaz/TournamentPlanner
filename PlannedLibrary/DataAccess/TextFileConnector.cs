@@ -16,13 +16,14 @@ namespace PlannedLibrary.DataAccess
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
 
-        private const string PrizeFileName = "Prizes.csv";
+        private const string PrizesFileName = "Prizes.csv";
+        private const string PlayersFileName = "People.csv";
 
         public Prize CreatePrize(Prize model)
         {
             // Load the text file and convert it to a list of prizes
 
-            List<Prize> prizesList = PrizeFileName.LoadFile().ConvertToPrizes();
+            List<Prize> prizesList = PrizesFileName.LoadFile().ConvertToPrizes();
 
             //find the last id
             int lastId = 0;
@@ -36,14 +37,31 @@ namespace PlannedLibrary.DataAccess
 
             prizesList.Add(model);
 
-            prizesList.ConvertPrizesToString().SaveFile(PrizeFileName);
+            prizesList.ConvertPrizesToString().SaveFile(PrizesFileName);
             return model;
         }
 
         // TODO implement the following
         public Player CreatePlayer(Player model)
         {
-            throw new NotImplementedException();
+            // Load the text file and convert it to a list of prizes
+
+            List<Player> playersList = PlayersFileName.LoadFile().ConvertToPlayers();
+
+            //find the last id
+            int lastId = 0;
+            if (playersList.Count != 0)
+            {
+                lastId = playersList[playersList.Count - 1].Id;
+
+            }
+            model.Id = lastId + 1;
+            // save the new one at the end of the file
+
+            playersList.Add(model);
+
+            playersList.ConvertPlayersToString().SaveFile(PlayersFileName);
+            return model;
         }
     }
 }

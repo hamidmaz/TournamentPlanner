@@ -32,9 +32,6 @@ namespace PlannedLibrary.Models
         public double Percentage { get; set; }
 
 
-        public Prize()
-        {
-        }
 
         public Prize(string placeNumber, string placeName, string amount, string percentage)
         {
