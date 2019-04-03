@@ -63,10 +63,16 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        // TODO implement this
+        /// <summary>
+        /// load all the players from database and return a list of players
+        /// </summary>
+        /// <returns></returns>
         public List<Player> GetPeople_All()
         {
-            throw new NotImplementedException();
+            // Load the text file and convert it to a list of prizes
+
+            return PlayersFileName.LoadFile().ConvertToPlayers();
+            
         }
     }
 }

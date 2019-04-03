@@ -94,7 +94,6 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        // TODO impelement this
 
         public List<Player> GetPeople_All()
         {
