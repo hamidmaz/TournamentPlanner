@@ -11,6 +11,9 @@ namespace PlannedLibrary.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        //Attention, this class was developed based on tutorial for Microsoft SQL server but
+        //never tested here. Instead, I used PostgreSQLConnector.cs
+
         /// <summary>
         /// Save the new prize to the database and pass it with its unique identifier
         /// </summary>

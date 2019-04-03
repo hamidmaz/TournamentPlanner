@@ -10,6 +10,6 @@ namespace PlannedLibrary
     {
         SQL,
         PostgreSQL,
-        textFile
+        TextFile
     }
 }

@@ -31,7 +31,7 @@ namespace PlannedLibrary
                         Connection = sql;
                         break;
                     }
-                case DatabaseType.textFile:
+                case DatabaseType.TextFile:
                     {
                         //TODO creat text file connection
                         TextFileConnector txt = new TextFileConnector();
