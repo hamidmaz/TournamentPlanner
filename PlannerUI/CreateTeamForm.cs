@@ -64,9 +64,13 @@ namespace PlannerUI
                     emailTextBox.Text,
                     mobileNrTextBox.Text);
 
-                GlobalConfig.Connection.CreatePlayer(model);
+                model = GlobalConfig.Connection.CreatePlayer(model);
 
                 CleanNewMemberFields();
+
+                // Add the new player to the team members list
+                selectedPlayers.Add(model);
+                WireUpLists();
             }
             else
             {
@@ -126,9 +130,27 @@ namespace PlannerUI
         private void addMemberButton_Click(object sender, EventArgs e)
         {
             Player selectedP = selectPlayerComboBox.SelectedItem as Player;
-            selectedPlayers.Add(selectedP);
-            availablePlayers.Remove(selectedP);
-            WireUpLists();
+
+            // check to make sure sth is selected and the obj is not null
+            if (selectedP != null)
+            {
+                selectedPlayers.Add(selectedP);
+                availablePlayers.Remove(selectedP);
+                WireUpLists(); 
+            }
+        }
+
+        private void removeSelectedTeamMembersButton_Click(object sender, EventArgs e)
+        {
+            Player selectedP = teamMembersListBox.SelectedItem as Player;
+
+            // check to make sure sth is selected and the obj is not null
+            if (selectedP != null)
+            {
+                selectedPlayers.Remove(selectedP);
+                availablePlayers.Add(selectedP);
+                WireUpLists(); 
+            }
         }
     }
 }
