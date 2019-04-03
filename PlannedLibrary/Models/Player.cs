@@ -31,6 +31,14 @@
             CellphoneNr = cellphoneNr;
         }
 
+        public string FUllName
+        {
+            get
+            {
+                return $"{this.FirstName} {this.LastName}";
+            }
+        }
+
         
     }
 }

@@ -41,7 +41,6 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        // TODO implement the following
         public Player CreatePlayer(Player model)
         {
             // Load the text file and convert it to a list of prizes

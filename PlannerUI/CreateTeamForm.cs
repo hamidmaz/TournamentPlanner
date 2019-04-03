@@ -14,14 +14,38 @@ namespace PlannerUI
 {
     public partial class CreateTeamForm : Form
     {
+        private List<Player> availablePlayers = new List<Player>();
+        private List<Player> selectedPlayers = new List<Player>();
+
+        
         public CreateTeamForm()
         {
             InitializeComponent();
+            CreateTestData();
+            WireUpLists();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+
+        private void CreateTestData()
         {
-           
+            availablePlayers.Add(new Player("h1","m1","h1m1@noobnoob.edu","1616514"));
+            availablePlayers.Add(new Player("h2", "m2", "h2m2@noobnoob.edu", "154684"));
+            availablePlayers.Add(new Player("h3", "m3", "h3m3@noobnoob.edu", "145684894"));
+
+            selectedPlayers.Add(new Player("h4", "m4", "h3m3@noobnoob.edu", "145684894"));
+            selectedPlayers.Add(new Player("h5", "m5", "h3m3@noobnoob.edu", "145684894"));
+            selectedPlayers.Add(new Player("h6", "m6", "h3m3@noobnoob.edu", "145684894"));
+
+        }
+
+        private void WireUpLists()
+        {
+            selectPlayerComboBox.DataSource = availablePlayers;
+            selectPlayerComboBox.DisplayMember = "FullName";
+
+            teamMembersListBox.DataSource = selectedPlayers;
+            teamMembersListBox.DisplayMember = "FullName";
+            
         }
 
         private void addNewplayerButton_Click(object sender, EventArgs e)

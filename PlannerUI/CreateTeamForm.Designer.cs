@@ -195,7 +195,6 @@
             this.lastNameLabel.Size = new System.Drawing.Size(103, 25);
             this.lastNameLabel.TabIndex = 9;
             this.lastNameLabel.Text = "Last name";
-            this.lastNameLabel.Click += new System.EventHandler(this.label2_Click);
             // 
             // lastNameTextBox
             // 
