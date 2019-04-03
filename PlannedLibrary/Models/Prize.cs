@@ -34,11 +34,28 @@ namespace PlannedLibrary.Models
 
 
         public Prize(string placeNumber, string placeName, string amount, string percentage)
+            :this(null, placeNumber, placeName, amount, percentage)
         {
-            this.PlaceNumber =  Convert.ToInt32(placeNumber);
+        }
+
+        public Prize(string id, string placeNumber, string placeName, string amount, string percentage)
+        {
+            this.Id = Convert.ToInt32(id);
+            this.PlaceNumber = Convert.ToInt32(placeNumber);
             this.PlaceName = placeName;
             this.Amount = Convert.ToDecimal(amount);
             this.Percentage = Convert.ToDouble(percentage);
+
+        }
+
+        
+        public Prize(int id, int placeNumber, string placeName, decimal amount, double percentage)
+        {
+            this.Id = id;
+            this.PlaceNumber = placeNumber;
+            this.PlaceName = placeName;
+            this.Amount = amount;
+            this.Percentage = percentage;
 
         }
     }

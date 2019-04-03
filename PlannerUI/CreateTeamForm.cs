@@ -21,7 +21,8 @@ namespace PlannerUI
         public CreateTeamForm()
         {
             InitializeComponent();
-            CreateTestData();
+            availablePlayers = GlobalConfig.Connection.GetPeople_All();
+            //CreateTestData();
             WireUpLists();
         }
 
@@ -40,9 +41,14 @@ namespace PlannerUI
 
         private void WireUpLists()
         {
+            // if you do not set the datasource of a comboBox to null
+            //before the main values, it will not be updated every time
+            // you change it and will only work the first time! Do not know why...
+            selectPlayerComboBox.DataSource = null;
             selectPlayerComboBox.DataSource = availablePlayers;
             selectPlayerComboBox.DisplayMember = "FullName";
 
+            teamMembersListBox.DataSource = null;
             teamMembersListBox.DataSource = selectedPlayers;
             teamMembersListBox.DisplayMember = "FullName";
             
@@ -115,6 +121,14 @@ namespace PlannerUI
             emailTextBox.Text = "";
             mobileNrTextBox.Text = "";
 
+        }
+
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            Player selectedP = selectPlayerComboBox.SelectedItem as Player;
+            selectedPlayers.Add(selectedP);
+            availablePlayers.Remove(selectedP);
+            WireUpLists();
         }
     }
 }

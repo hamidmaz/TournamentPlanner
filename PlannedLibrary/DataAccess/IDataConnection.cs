@@ -16,5 +16,6 @@ namespace PlannedLibrary.DataAccess
         /// <returns></returns>
         Prize CreatePrize(Prize model);
         Player CreatePlayer(Player model);
+        List<Player> GetPeople_All();
     }
 }

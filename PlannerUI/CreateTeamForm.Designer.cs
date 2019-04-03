@@ -91,6 +91,7 @@
             this.addMemberButton.TabIndex = 12;
             this.addMemberButton.Text = "Add member";
             this.addMemberButton.UseVisualStyleBackColor = true;
+            this.addMemberButton.Click += new System.EventHandler(this.addMemberButton_Click);
             // 
             // selectPlayerComboBox
             // 

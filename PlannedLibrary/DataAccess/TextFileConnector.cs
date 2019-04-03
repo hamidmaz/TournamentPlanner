@@ -62,5 +62,11 @@ namespace PlannedLibrary.DataAccess
             playersList.ConvertPlayersToString().SaveFile(PlayersFileName);
             return model;
         }
+
+        // TODO implement this
+        public List<Player> GetPeople_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

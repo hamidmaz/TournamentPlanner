@@ -24,11 +24,17 @@
         
 
         public Player(string firstName, string lastName, string emailAddress, string cellphoneNr)
+            :this(0, firstName, lastName, emailAddress, cellphoneNr)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            EmailAddress = emailAddress;
-            CellphoneNr = cellphoneNr;
+        }
+
+        public Player(int id, string firstName, string lastName, string emailAddress, string cellphoneNr)
+        {
+            this.Id = id;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.EmailAddress = emailAddress;
+            this.CellphoneNr = cellphoneNr;
         }
 
         public string FUllName

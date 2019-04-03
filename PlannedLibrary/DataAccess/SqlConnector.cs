@@ -44,5 +44,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public List<Player> GetPeople_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
