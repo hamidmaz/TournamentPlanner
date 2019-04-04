@@ -18,6 +18,7 @@ namespace PlannedLibrary.DataAccess
 
         private const string PrizesFileName = "Prizes.csv";
         private const string PlayersFileName = "People.csv";
+        private const string TeamsFileName = "Teams.csv";
 
         public Prize CreatePrize(Prize model)
         {
@@ -75,10 +76,25 @@ namespace PlannedLibrary.DataAccess
             
         }
 
-        // TODO Implement the following
         public Team CreateTeam(Team model)
         {
-            throw new NotImplementedException();
+            // Load the text file and convert it to a list of prizes
+
+            List<Team> teamsList = TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
+
+            //find the last id
+            int lasTeamtId = 0;
+            if (teamsList.Count != 0)
+            {
+                lasTeamtId = teamsList[teamsList.Count - 1].Id;
+            }
+            model.Id = lasTeamtId + 1;
+            // save the new one at the end of the file
+            
+            teamsList.Add(model);
+
+            teamsList.ConvertTeamsToString().SaveFile(TeamsFileName);
+            return model;
         }
     }
 }

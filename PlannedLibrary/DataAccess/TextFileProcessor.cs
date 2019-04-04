@@ -49,6 +49,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             File.WriteAllLines(fileName.FullFilePath(), lines);
         }
 
+
         public static List<Prize> ConvertToPrizes(this List<string> lines)
         {
             List<Prize> outputList = new List<Prize>();
@@ -62,7 +63,6 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             }
             return outputList;
         }
-
         public static List<string> ConvertPrizesToString(this List<Prize> prizesList)
         {
             List<string> outputStringList = new List<string>();
@@ -73,20 +73,19 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputStringList;
         }
 
+
         public static List<Player> ConvertToPlayers(this List<string> lines)
         {
             List<Player> outputList = new List<Player>();
             foreach (string line in lines)
             {
                 string[] cols = line.Split(',');
-                Player p = new Player(cols[1], cols[2], cols[3], cols[4]);
-                p.Id = Convert.ToInt32(cols[0]);
+                Player p = new Player(Convert.ToInt32(cols[0]), cols[1], cols[2], cols[3], cols[4]);
                 
                 outputList.Add(p);
             }
             return outputList;
         }
-
         public static List<string> ConvertPlayersToString(this List<Player> playersList)
         {
             List<string> outputStringList = new List<string>();
@@ -96,6 +95,64 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             }
             return outputStringList;
         }
+
+        /// <summary>
+        /// Read teams from the file and return a list of teams containing teamnames and IDs without their members
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static List<Team> ConvertToTeams(this List<string> lines, string playersFileName)
+        {
+            List<Team> outputList = new List<Team>();
+            List<Player> teamMebmersList;
+            List<Player> allPlayersList = playersFileName.LoadFile().ConvertToPlayers();
+
+            foreach (string line in lines)
+            {
+                string[] cols = line.Split(',');
+                Team t = new Team();
+
+                t.Id = Convert.ToInt32(cols[0]);
+                t.TeamName = cols[1];
+                string[] teamMemberIds = cols[2].Split('|');
+                teamMebmersList= new List<Player>();
+                foreach (var memberId in teamMemberIds)
+                {
+                    teamMebmersList.Add((allPlayersList.Where(x => x.Id == Convert.ToInt32(memberId)).First()));
+                }
+                t.TeamMembers = teamMebmersList;
+
+                outputList.Add(t);
+            }
+            return outputList;
+        }
+        
+        /// <summary>
+        /// Converts new teams to strings without their teammembers. 
+        /// </summary>
+        /// <param name="teamsList"></param>
+        /// <returns></returns>
+        public static List<string> ConvertTeamsToString(this List<Team> teamsList)
+        {
+            List<string> outputStringList = new List<string>();
+            foreach (Team t in teamsList)
+            {
+                string teamString = $"{t.Id},{t.TeamName},";
+                
+                foreach (Player p in t.TeamMembers)
+                {
+                    teamString = $"{teamString}{p.Id}|";
+                }
+                if (teamString.Length >0)
+                {
+
+                    teamString.Remove(teamString.Length-1);
+                }
+                outputStringList.Add(teamString);
+            }
+            return outputStringList;
+        }
+
 
 
 
