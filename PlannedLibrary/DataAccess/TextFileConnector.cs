@@ -74,5 +74,11 @@ namespace PlannedLibrary.DataAccess
             return PlayersFileName.LoadFile().ConvertToPlayers();
             
         }
+
+        // TODO Implement the following
+        public Team CreateTeam(Team model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

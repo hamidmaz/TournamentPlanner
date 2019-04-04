@@ -21,7 +21,8 @@ namespace PlannerUI
         public CreateTeamForm()
         {
             InitializeComponent();
-            availablePlayers = GlobalConfig.Connection.GetPeople_All();
+            InitializeFieldsValue();
+            //availablePlayers = GlobalConfig.Connection.GetPeople_All();
             //CreateTestData();
             WireUpLists();
         }
@@ -78,6 +79,51 @@ namespace PlannerUI
             }
         }
 
+        private void addMemberButton_Click(object sender, EventArgs e)
+        {
+            Player selectedP = selectPlayerComboBox.SelectedItem as Player;
+
+            // check to make sure sth is selected and the obj is not null
+            if (selectedP != null)
+            {
+                selectedPlayers.Add(selectedP);
+                availablePlayers.Remove(selectedP);
+                WireUpLists(); 
+            }
+        }
+        private void removeSelectedTeamMembersButton_Click(object sender, EventArgs e)
+        {
+            Player selectedP = teamMembersListBox.SelectedItem as Player;
+
+            // check to make sure sth is selected and the obj is not null
+            if (selectedP != null)
+            {
+                selectedPlayers.Remove(selectedP);
+                availablePlayers.Add(selectedP);
+                WireUpLists(); 
+            }
+        }
+
+        private void createTeamButton_Click(object sender, EventArgs e)
+        {
+            if (ValidateForm())
+            {
+                Team model = new Team(
+                    teamNameTextBox.Text,
+                    selectedPlayers);
+
+                GlobalConfig.Connection.CreateTeam(model);
+
+                InitializeFieldsValue();
+                WireUpLists();
+            }
+            else
+            {
+                MessageBox.Show("Invalid inputs!");
+            }
+        }
+
+
         private bool ValidateNewMemberForm()
         {
             bool output = true;
@@ -117,7 +163,29 @@ namespace PlannerUI
 
             return output;
         }
+        private bool ValidateForm()
+        {
+            bool output = true;
+            
+            if (teamNameTextBox.Text.Length == 0)
+            {
+                output = false;
+            }
 
+            if (selectedPlayers.Count == 0)
+            {
+                output = false;
+            }
+
+            return output;
+        }
+        
+        private void InitializeFieldsValue()
+        {
+            teamNameTextBox.Text = "";
+            availablePlayers = GlobalConfig.Connection.GetPeople_All();
+            selectedPlayers.Clear();
+        }
         private void CleanNewMemberFields()
         {
             firstNameTextBox.Text = "";
@@ -127,30 +195,9 @@ namespace PlannerUI
 
         }
 
-        private void addMemberButton_Click(object sender, EventArgs e)
-        {
-            Player selectedP = selectPlayerComboBox.SelectedItem as Player;
 
-            // check to make sure sth is selected and the obj is not null
-            if (selectedP != null)
-            {
-                selectedPlayers.Add(selectedP);
-                availablePlayers.Remove(selectedP);
-                WireUpLists(); 
-            }
-        }
 
-        private void removeSelectedTeamMembersButton_Click(object sender, EventArgs e)
-        {
-            Player selectedP = teamMembersListBox.SelectedItem as Player;
 
-            // check to make sure sth is selected and the obj is not null
-            if (selectedP != null)
-            {
-                selectedPlayers.Remove(selectedP);
-                availablePlayers.Add(selectedP);
-                WireUpLists(); 
-            }
-        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace PlannerUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize the dataBase
-            GlobalConfig.InitializeConnections(DatabaseType.TextFile);
+            GlobalConfig.InitializeConnections(DatabaseType.PostgreSQL);
 
             // TODO Final stage: change the following
             Application.Run(new CreateTeamForm());

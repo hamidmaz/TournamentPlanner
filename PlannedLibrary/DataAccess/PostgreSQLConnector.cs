@@ -113,8 +113,6 @@ namespace PlannedLibrary.DataAccess
                 // Execute the procedure and obtain a result set
                 NpgsqlDataReader dr = command.ExecuteReader();
 
-                string test = "";
-                string[] test2 = new string[5];
                 // Output rows 
                 while (dr.Read())
                 {
@@ -125,15 +123,79 @@ namespace PlannedLibrary.DataAccess
                         Convert.ToString(dr[3]),
                         Convert.ToString(dr[4])));
                 }
-                // outputList.Add(dr.Cast<Player>);
-
+                
                 //tran.Commit();
+                connection.Close();
+            }
+
+            return outputList;
+        }
+
+        public Team CreateTeam(Team model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTeam_Insert\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("TeamName", model.TeamName);
+
+                // Execute the procedure and obtain a result set
+                //NpgsqlDataReader dr = command.ExecuteReader();
+                // if it returns a single value, use ExecuteScalar!
+                int newId = Convert.ToInt32(command.ExecuteScalar());
+
+                tran.Commit();
+                connection.Close();
+
+                model.Id = newId;
+            }
+            
+
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTeamMembers_Insert\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                int newId = 0;
+                foreach (Player p in model.TeamMembers)
+                {
+                    // Since we are using command in a loop, we need to remove the prev. parameters each time
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("TeamId", model.Id);
+                    command.Parameters.AddWithValue("PersonId", p.Id);
+                    
+
+                    // Execute the procedure and obtain a result set
+                    //NpgsqlDataReader dr = command.ExecuteReader();
+                    // if it returns a single value, use ExecuteScalar!
+                    newId = Convert.ToInt32(command.ExecuteScalar());
+                    p.Id = newId;
+                }
+                
+
+                tran.Commit();
                 connection.Close();
 
                 
             }
-
-            return outputList;
+            return model;
         }
     }
 }

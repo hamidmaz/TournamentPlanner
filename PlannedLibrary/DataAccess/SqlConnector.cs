@@ -49,5 +49,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public Team CreateTeam(Team model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
