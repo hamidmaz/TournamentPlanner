@@ -17,9 +17,12 @@ namespace PlannerUI
         private List<Player> availablePlayers = new List<Player>();
         private List<Player> selectedPlayers = new List<Player>();
 
-        
-        public CreateTeamForm()
+        public ITeamRequestor CallingForm { get; set; }
+
+
+        public CreateTeamForm(ITeamRequestor callingForm)
         {
+            this.CallingForm = callingForm;
             InitializeComponent();
             InitializeFieldsValue();
             
@@ -98,6 +101,9 @@ namespace PlannerUI
                     selectedPlayers);
 
                 GlobalConfig.Connection.CreateTeam(model);
+
+                CallingForm.TeamComplete(model);
+                this.Close();
 
                 InitializeFieldsValue();
                 WireUpLists();

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace PlannerUI
 {
-    public partial class CreatTournamentForm : Form, IPrizeRequestor
+    public partial class CreatTournamentForm : Form, IPrizeRequestor, ITeamRequestor
     {
         List<Team> availableTeams = new List<Team>();
         List<Team> selectedTeams = new List<Team>();
@@ -55,8 +55,14 @@ namespace PlannerUI
 
         private void creatNewTeamlinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            
+            //call the create prize form
+            CreateTeamForm frm = new CreateTeamForm(callingForm: this);
+            frm.Show();
+
+            // get the new prize: it happens automatically inside the creatpirze form
+            // when the PrizeComplete method from here is being called.
         }
+
 
         private void addTeamButton_Click(object sender, EventArgs e)
         {
@@ -70,7 +76,6 @@ namespace PlannerUI
                 WireUpLists();
             }
         }
-
         private void removeSelectedTeamsButton_Click(object sender, EventArgs e)
         {
             Team selectedT = tournamentTeamsListBox.SelectedItem as Team;
@@ -84,12 +89,6 @@ namespace PlannerUI
             }
         }
 
-        public void PrizeComplete(Prize model)
-        {
-            tournamentPrizes.Add(model);
-            //add the prize to the related list
-            WireUpLists();
-        }
 
         private void createPrizeButton_Click(object sender, EventArgs e)
         {
@@ -101,7 +100,12 @@ namespace PlannerUI
             // when the PrizeComplete method from here is being called.
 
         }
-
+        public void PrizeComplete(Prize model)
+        {
+            tournamentPrizes.Add(model);
+            //add the prize to the related list
+            WireUpLists();
+        }
         private void removeSelectedPrizesButton_Click(object sender, EventArgs e)
         {
             Prize selectedP = tournamentPrizesListBox.SelectedItem as Prize;
@@ -114,6 +118,18 @@ namespace PlannerUI
             }
 
             //TOOD remove from the databse as well
+        }
+
+        public void TeamComplete(Team model)
+        {
+            selectedTeams.Add(model);
+            //add the prize to the related list
+            WireUpLists();
+        }
+
+        private void createTournamentButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
