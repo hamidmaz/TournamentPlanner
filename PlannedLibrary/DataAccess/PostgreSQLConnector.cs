@@ -93,8 +93,6 @@ namespace PlannedLibrary.DataAccess
             }
             return model;
         }
-
-
         public List<Player> GetPeople_All()
         {
             List<Player> outputList = new List<Player>();
@@ -197,7 +195,6 @@ namespace PlannedLibrary.DataAccess
             }
             return model;
         }
-
         public List<Team> GetTeams_All()
         {
             List<Team> outputList = new List<Team>();
@@ -261,5 +258,129 @@ namespace PlannedLibrary.DataAccess
             }
             return outputList;
         }
+
+
+        public Tournament CreateTournament(Tournament model)
+        {
+            // put tournament in the database
+            SaveTournament(model);
+            // purt prizes in the tournament
+            SaveTournamentPrizes(model);
+            // put all the tournament entries (teams) in the database
+            SaveTournamentEntries(model);
+            // put all the matches in the database
+
+            return model;
+        }
+
+        private void SaveTournament(Tournament model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournaments_Insert\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("TournamentName", model.TournamentName);
+                command.Parameters.AddWithValue("EntryFee", model.EntryFee);
+
+                // Execute the procedure and obtain a result set
+                //NpgsqlDataReader dr = command.ExecuteReader();
+                // if it returns a single value, use ExecuteScalar!
+                int newId = Convert.ToInt32(command.ExecuteScalar());
+
+                tran.Commit();
+                connection.Close();
+
+                model.Id = newId;
+            }
+        }
+
+        private void SaveTournamentPrizes(Tournament model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournamentPrizes_Insert\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                int newId = 0;
+                foreach (Prize p in model.Prizes)
+                {
+                    // Since we are using command in a loop, we need to remove the prev. parameters each time
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("TournamentId", model.Id);
+                    command.Parameters.AddWithValue("PrizeId", p.Id);
+
+
+                    // Execute the procedure and obtain a result set
+                    //NpgsqlDataReader dr = command.ExecuteReader();
+                    // if it returns a single value, use ExecuteScalar!
+                    newId = Convert.ToInt32(command.ExecuteScalar());
+                    //p.Id = newId;
+                }
+
+
+                tran.Commit();
+                connection.Close();
+
+
+            }
+        }
+
+        private void SaveTournamentEntries(Tournament model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournamentEntries_Insert\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                int newId = 0;
+                foreach (Team t in model.Teams)
+                {
+                    // Since we are using command in a loop, we need to remove the prev. parameters each time
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("TournamentId", model.Id);
+                    command.Parameters.AddWithValue("TeamId", t.Id);
+
+
+                    // Execute the procedure and obtain a result set
+                    //NpgsqlDataReader dr = command.ExecuteReader();
+                    // if it returns a single value, use ExecuteScalar!
+                    newId = Convert.ToInt32(command.ExecuteScalar());
+                    //t.Id = newId;
+                }
+
+
+                tran.Commit();
+                connection.Close();
+
+
+            }
+        }
+
+
     }
 }

@@ -104,5 +104,12 @@ namespace PlannedLibrary.DataAccess
 
             return TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
         }
+
+
+        // TODO implement this
+        public Tournament CreateTournament(Tournament model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

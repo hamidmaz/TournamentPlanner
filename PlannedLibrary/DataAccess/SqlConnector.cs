@@ -59,5 +59,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public Tournament CreateTournament(Tournament model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -127,9 +127,51 @@ namespace PlannerUI
             WireUpLists();
         }
 
+        // TODO just copied from here to the end
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
+            if (ValidateForm())
+            {
+                Tournament model = new Tournament();
+                model.TournamentName = tournamentNameTextBox.Text;
+                model.EntryFee = Convert.ToDecimal(EntryFeeTextBox.Text);
+                model.Teams = selectedTeams;
+                model.Prizes = tournamentPrizes;
 
+                model = GlobalConfig.Connection.CreateTournament(model);
+
+
+                InitializeFieldsValue();
+                //this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid inputs!");
+            }
         }
+
+
+        private bool ValidateForm()
+        {
+            bool output = true;
+
+            if (tournamentNameTextBox.Text.Length == 0)
+            {
+                output = false;
+            }
+
+            if (int.TryParse(EntryFeeTextBox.Text, out int entryFee) == false)
+            {
+                output = false;
+            }
+            else if (entryFee < 0)
+            {
+                output = false;
+            }
+            
+            return output;
+        }
+
+        
     }
 }
