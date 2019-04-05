@@ -70,7 +70,7 @@ namespace PlannedLibrary.DataAccess
         /// <returns></returns>
         public List<Player> GetPeople_All()
         {
-            // Load the text file and convert it to a list of prizes
+            // Load the text file and convert it to a list of people
 
             return PlayersFileName.LoadFile().ConvertToPlayers();
             
@@ -97,10 +97,12 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        // TODO implement this 
+         
         public List<Team> GetTeams_All()
         {
-            throw new NotImplementedException();
+            // Load the text file and convert it to a list of prizes
+
+            return TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
         }
     }
 }

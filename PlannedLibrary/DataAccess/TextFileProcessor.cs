@@ -114,11 +114,17 @@ namespace PlannedLibrary.DataAccess.TextProcessors
 
                 t.Id = Convert.ToInt32(cols[0]);
                 t.TeamName = cols[1];
-                string[] teamMemberIds = cols[2].Split('|');
+
+                
                 teamMebmersList= new List<Player>();
-                foreach (var memberId in teamMemberIds)
+                if (cols[2] != "")
                 {
-                    teamMebmersList.Add((allPlayersList.Where(x => x.Id == Convert.ToInt32(memberId)).First()));
+
+                    string[] teamMemberIds = cols[2].Split('|');
+                    foreach (string memberId in teamMemberIds)
+                    {
+                        teamMebmersList.Add((allPlayersList.Where(x => x.Id == Convert.ToInt32(memberId)).First()));
+                    } 
                 }
                 t.TeamMembers = teamMebmersList;
 
@@ -146,7 +152,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 if (teamString.Length >0)
                 {
 
-                    teamString.Remove(teamString.Length-1);
+                    teamString = teamString.Remove(teamString.Length-1);
                 }
                 outputStringList.Add(teamString);
             }
