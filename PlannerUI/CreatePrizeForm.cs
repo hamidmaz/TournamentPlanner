@@ -14,9 +14,15 @@ namespace PlannerUI
 {
     public partial class CreatePrizeForm : Form
     {
-        public CreatePrizeForm()
+        /// <summary>
+        /// keep a ref to the form which calls CreaterPrizeFrom to pass the new prize to it
+        /// </summary>
+        public IPrizeRequestor CallerForm { get; set; }
+
+        public CreatePrizeForm(IPrizeRequestor callingForm)
         {
             InitializeComponent();
+            this.CallerForm = callingForm;
         }
 
         private void createPrizeButton_Click(object sender, EventArgs e)
@@ -29,9 +35,12 @@ namespace PlannerUI
                     prizeAmountTextBox.Text,
                     prizePercentageTextBox.Text);
 
-                GlobalConfig.Connection.CreatePrize(model);
+                model = GlobalConfig.Connection.CreatePrize(model);
+
+                CallerForm.PrizeComplete(model);
                 
                 CleanFields();
+                this.Close();
             }
             else
             {

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace PlannerUI
 {
-    public partial class CreatTournamentForm : Form
+    public partial class CreatTournamentForm : Form, IPrizeRequestor
     {
         List<Team> availableTeams = new List<Team>();
         List<Team> selectedTeams = new List<Team>();
@@ -38,6 +38,10 @@ namespace PlannerUI
             tournamentTeamsListBox.DataSource = selectedTeams;
             tournamentTeamsListBox.DisplayMember = "TeamName";
 
+            tournamentPrizesListBox.DataSource = null;
+            tournamentPrizesListBox.DataSource = tournamentPrizes;
+            tournamentPrizesListBox.DisplayMember = "PlaceName";
+
         }
         private void InitializeFieldsValue()
         {
@@ -51,7 +55,7 @@ namespace PlannerUI
 
         private void creatNewTeamlinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Application.Run(new CreateTeamForm());
+            
         }
 
         private void addTeamButton_Click(object sender, EventArgs e)
@@ -78,6 +82,38 @@ namespace PlannerUI
                 availableTeams.Add(selectedT);
                 WireUpLists();
             }
+        }
+
+        public void PrizeComplete(Prize model)
+        {
+            tournamentPrizes.Add(model);
+            //add the prize to the related list
+            WireUpLists();
+        }
+
+        private void createPrizeButton_Click(object sender, EventArgs e)
+        {
+            //call the create prize form
+            CreatePrizeForm frm = new CreatePrizeForm(callingForm: this);
+            frm.Show();
+
+            // get the new prize: it happens automatically inside the creatpirze form
+            // when the PrizeComplete method from here is being called.
+
+        }
+
+        private void removeSelectedPrizesButton_Click(object sender, EventArgs e)
+        {
+            Prize selectedP = tournamentPrizesListBox.SelectedItem as Prize;
+
+            // check to make sure sth is selected and the obj is not null
+            if (selectedP != null)
+            {
+                tournamentPrizes.Remove(selectedP);
+                WireUpLists();
+            }
+
+            //TOOD remove from the databse as well
         }
     }
 }
