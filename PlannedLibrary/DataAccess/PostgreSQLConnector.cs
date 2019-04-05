@@ -197,5 +197,69 @@ namespace PlannedLibrary.DataAccess
             }
             return model;
         }
+
+        public List<Team> GetTeams_All()
+        {
+            List<Team> outputList = new List<Team>();
+
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                //NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTeams_GetAll\"", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                // Execute the procedure and obtain a result set
+                NpgsqlDataReader dr = command.ExecuteReader();
+
+                // Output rows 
+                while (dr.Read())
+                {
+                    outputList.Add(new Team(
+                        Convert.ToInt32(dr[0]),
+                        Convert.ToString(dr[1])));
+                }
+
+                //tran.Commit();
+                connection.Close();
+            }
+
+            foreach (Team team in outputList)
+            {
+                using (var connection = new NpgsqlConnection(CnnString))
+                {
+                    connection.Open();
+                    // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                    //NpgsqlTransaction tran = connection.BeginTransaction();
+
+                    // Define a command to call the PostgreSQL function
+                    // This code works with PostgreSQL functions not procedures
+                    NpgsqlCommand command = new NpgsqlCommand("\"spPeople_GetByTeam\"", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("teamId", team.Id);
+                    // Execute the procedure and obtain a result set
+                    NpgsqlDataReader dr = command.ExecuteReader();
+
+                    // Output rows 
+
+                    while (dr.Read())
+                    {
+                        team.TeamMembers.Add(new Player(
+                            Convert.ToInt32(dr[0]),
+                            Convert.ToString(dr[1]),
+                            Convert.ToString(dr[2]),
+                            Convert.ToString(dr[3]),
+                            Convert.ToString(dr[4])));
+                    }
+                    connection.Close();
+                }
+            }
+            return outputList;
+        }
     }
 }

@@ -96,5 +96,11 @@ namespace PlannedLibrary.DataAccess
             teamsList.ConvertTeamsToString().SaveFile(TeamsFileName);
             return model;
         }
+
+        // TODO implement this 
+        public List<Team> GetTeams_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

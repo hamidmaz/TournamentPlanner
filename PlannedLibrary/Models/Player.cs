@@ -37,6 +37,10 @@
             this.CellphoneNr = cellphoneNr;
         }
 
+        public Player()
+        {
+        }
+
         public string FUllName
         {
             get

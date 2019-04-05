@@ -18,6 +18,7 @@ namespace PlannedLibrary.DataAccess
         Player CreatePlayer(Player model);
         Team CreateTeam(Team model);
         List<Player> GetPeople_All();
+        List<Team> GetTeams_All();
         
     }
 }

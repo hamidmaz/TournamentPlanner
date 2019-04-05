@@ -54,5 +54,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public List<Team> GetTeams_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

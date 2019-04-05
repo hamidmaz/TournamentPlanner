@@ -24,6 +24,10 @@ namespace PlannedLibrary.Models
             :this(0,teamName,teamMembers)
         {
         }
+        public Team(int id, string teamName)
+            :this(id, teamName, new List<Player>())
+        {
+        }
 
         public Team(int id, string teamName, List<Player> teamMembers)
         {
