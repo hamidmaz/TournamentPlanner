@@ -262,6 +262,7 @@ namespace PlannedLibrary.DataAccess
 
         public Tournament CreateTournament(Tournament model)
         {
+
             // put tournament in the database
             SaveTournament(model);
             // purt prizes in the tournament
@@ -270,6 +271,7 @@ namespace PlannedLibrary.DataAccess
             SaveTournamentEntries(model);
             // put all the matches in the database
 
+            //TODO save matches which are made somewhere else
             return model;
         }
 
@@ -302,7 +304,6 @@ namespace PlannedLibrary.DataAccess
                 model.Id = newId;
             }
         }
-
         private void SaveTournamentPrizes(Tournament model)
         {
             using (var connection = new NpgsqlConnection(CnnString))
@@ -341,7 +342,6 @@ namespace PlannedLibrary.DataAccess
 
             }
         }
-
         private void SaveTournamentEntries(Tournament model)
         {
             using (var connection = new NpgsqlConnection(CnnString))
@@ -380,6 +380,8 @@ namespace PlannedLibrary.DataAccess
 
             }
         }
+
+
 
 
     }

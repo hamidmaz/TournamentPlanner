@@ -127,7 +127,6 @@ namespace PlannerUI
             WireUpLists();
         }
 
-        // TODO just copied from here to the end
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
             if (ValidateForm())
@@ -150,7 +149,6 @@ namespace PlannerUI
             }
         }
 
-
         private bool ValidateForm()
         {
             bool output = true;
@@ -170,8 +168,6 @@ namespace PlannerUI
             }
             
             return output;
-        }
-
-        
+        }        
     }
 }

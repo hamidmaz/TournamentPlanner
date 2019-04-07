@@ -160,7 +160,116 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         }
 
 
+        /// <summary>
+        /// Read teams from the file and return a list of teams containing teamnames and IDs without their members
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static List<Tournament> ConvertToTournaments(this List<string> lines, string teamsFileName,string playersFileName, string prizesFileName, string matchesFileName)
+        {
+            List<Tournament> outputList = new List<Tournament>();
 
+            List<Team> tournamentTeamsList;
+            List<Team> allTeamsList = teamsFileName.LoadFile().ConvertToTeams(playersFileName);
+
+            List<Prize> tournamentPrizesList;
+            List<Prize> allPrizesList = prizesFileName.LoadFile().ConvertToPrizes();
+
+            foreach (string line in lines)
+            {
+                string[] cols = line.Split(',');
+                Tournament tour = new Tournament();
+
+                tour.Id = Convert.ToInt32(cols[0]);
+                tour.TournamentName = cols[1];
+                tour.EntryFee = Convert.ToDecimal(cols[2]);
+
+
+                tournamentTeamsList = new List<Team>();
+                if (cols[3] != "")
+                {
+
+                    string[] teamIdsArray = cols[3].Split('|');
+                    foreach (string teamId in teamIdsArray)
+                    {
+                        tournamentTeamsList.Add((allTeamsList.Where(x => x.Id == Convert.ToInt32(teamId)).First()));
+                    }
+                }
+                tour.Teams = tournamentTeamsList;
+
+                tournamentPrizesList = new List<Prize>();
+                if (cols[4] != "")
+                {
+
+                    string[] prizeIdsArray = cols[4].Split('|');
+                    foreach (string prizeId in prizeIdsArray)
+                    {
+                        tournamentPrizesList.Add((allPrizesList.Where(x => x.Id == Convert.ToInt32(prizeId)).First()));
+                    }
+                }
+                tour.Prizes = tournamentPrizesList;
+
+
+                // TODO take care of round coversion
+
+                outputList.Add(tour);
+            }
+            return outputList;
+        }
+
+        /// <summary>
+        /// Converts new teams to strings without their teammembers. 
+        /// </summary>
+        /// <param name="tournamentsList"></param>
+        /// <returns></returns>
+        public static List<string> ConvertTournamentsToString(this List<Tournament> tournamentsList)
+        {
+            //id,name,fee,team1|team2|...,prize1|prize2|...,match1 of round1*match2 of round1*...|match1 of round2*match2 of round2*...|...
+            List<string> outputStringList = new List<string>();
+            foreach (Tournament tour in tournamentsList)
+            {
+                string tournamentString = $"{tour.Id},{tour.TournamentName},{tour.EntryFee},";
+
+                foreach (Team t in tour.Teams)
+                {
+                    tournamentString = $"{tournamentString}{t.Id}|";
+                }
+                if (tournamentString.Length > 0)
+                {
+                    tournamentString = tournamentString.Remove(tournamentString.Length - 1);
+                    tournamentString = $"{tournamentString},";
+                }
+
+                foreach (Prize p in tour.Prizes)
+                {
+                    tournamentString = $"{tournamentString}{p.Id}|";
+                }
+                if (tournamentString.Length > 0)
+                {
+                    tournamentString = tournamentString.Remove(tournamentString.Length - 1);
+                }
+
+                foreach (List<Match> round in tour.Rounds)
+                {
+                    foreach (Match m in round)
+                    {
+                        tournamentString = $"{tournamentString}{m.Id}*";
+                    }
+                    if (tournamentString.Length > 0)
+                    {
+                        tournamentString = tournamentString.Remove(tournamentString.Length - 1);
+                    }
+                    tournamentString = $"{tournamentString}|";
+                }
+                if (tournamentString.Length > 0)
+                {
+                    tournamentString = tournamentString.Remove(tournamentString.Length - 1);
+                }
+
+                outputStringList.Add(tournamentString);
+            }
+            return outputStringList;
+        }
 
 
 

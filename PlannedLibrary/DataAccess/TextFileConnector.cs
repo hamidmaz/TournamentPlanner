@@ -10,16 +10,19 @@ namespace PlannedLibrary.DataAccess
 {
     public class TextFileConnector : IDataConnection
     {
+
+        private const string PrizesFileName = "Prizes.csv";
+        private const string PlayersFileName = "People.csv";
+        private const string TeamsFileName = "Teams.csv";
+        private const string TournamentsFileName = "Tournaments.csv";
+        private const string MatchupsFileName = "Matchups.csv";
+
+
         /// <summary>
         /// Save the new prize to a txt file and pass it with its unique identifier
         /// </summary>
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
-
-        private const string PrizesFileName = "Prizes.csv";
-        private const string PlayersFileName = "People.csv";
-        private const string TeamsFileName = "Teams.csv";
-
         public Prize CreatePrize(Prize model)
         {
             // Load the text file and convert it to a list of prizes
@@ -78,7 +81,7 @@ namespace PlannedLibrary.DataAccess
 
         public Team CreateTeam(Team model)
         {
-            // Load the text file and convert it to a list of prizes
+            // Load the text file and convert it to a list of teams
 
             List<Team> teamsList = TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
 
@@ -109,7 +112,23 @@ namespace PlannedLibrary.DataAccess
         // TODO implement this
         public Tournament CreateTournament(Tournament model)
         {
-            throw new NotImplementedException();
+            // Load the text file and convert it to a list of tournaments
+
+            List<Tournament> tournamentsList = TeamsFileName.LoadFile().ConvertToTournaments(TournamentsFileName,PlayersFileName,PrizesFileName,MatchupsFileName);
+
+            //find the last id
+            int lasTtId = 0;
+            if (tournamentsList.Count != 0)
+            {
+                lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
+            }
+            model.Id = lasTtId + 1;
+            // save the new one at the end of the file
+
+            tournamentsList.Add(model);
+
+            tournamentsList.ConvertTournamentsToString().SaveFile(TournamentsFileName);
+            return model;
         }
     }
 }

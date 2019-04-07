@@ -8,6 +8,11 @@ namespace PlannedLibrary.Models
 {
     public class Match
     {
+
+        /// <summary>
+        /// The unique identifier for the match
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// List of the match entries
         /// </summary>
