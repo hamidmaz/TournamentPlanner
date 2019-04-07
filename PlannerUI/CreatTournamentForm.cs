@@ -137,9 +137,10 @@ namespace PlannerUI
                 model.Teams = selectedTeams;
                 model.Prizes = tournamentPrizes;
 
+                //Wire up matches
+                TournamentLogic.CreateRounds(model);
+
                 model = GlobalConfig.Connection.CreateTournament(model);
-
-
                 InitializeFieldsValue();
                 //this.Close();
             }

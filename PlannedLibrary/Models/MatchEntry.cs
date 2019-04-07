@@ -9,6 +9,10 @@ namespace PlannedLibrary.Models
     public class MatchEntry
     {
         /// <summary>
+        /// The unique identifier for the match entry
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
         /// The competing team
         /// </summary>
         public Team TeamCompeting { get; set; } = new Team();

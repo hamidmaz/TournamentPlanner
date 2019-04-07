@@ -109,7 +109,6 @@ namespace PlannedLibrary.DataAccess
         }
 
 
-        // TODO implement this
         public Tournament CreateTournament(Tournament model)
         {
             // Load the text file and convert it to a list of tournaments

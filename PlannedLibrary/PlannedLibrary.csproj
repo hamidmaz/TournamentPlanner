@@ -81,6 +81,7 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="DataAccess\TextFileConnector.cs" />
     <Compile Include="Models\Tournament.cs" />
+    <Compile Include="TournamentLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
