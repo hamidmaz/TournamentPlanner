@@ -15,7 +15,7 @@ namespace PlannedLibrary.Models
         /// <summary>
         /// The competing team
         /// </summary>
-        public Team TeamCompeting { get; set; } = new Team();
+        public Team TeamCompeting { get; set; } //= new Team();
         /// <summary>
         /// The score of the team
         /// </summary>
@@ -23,6 +23,6 @@ namespace PlannedLibrary.Models
         /// <summary>
         /// The previouse match of the team in the tournament
         /// </summary>
-        public Match ParentMatch { get; set; } = new Match();
+        public Match ParentMatch { get; set; }// = new Match();
     }
 }

@@ -270,8 +270,7 @@ namespace PlannedLibrary.DataAccess
             // put all the tournament entries (teams) in the database
             SaveTournamentEntries(model);
             // put all the matches in the database
-
-            //TODO save matches which are made somewhere else
+            SaveTournamentRounds(model);
             return model;
         }
 
@@ -286,7 +285,7 @@ namespace PlannedLibrary.DataAccess
 
                 // Define a command to call the PostgreSQL function
                 // This code works with PostgreSQL functions not procedures
-                NpgsqlCommand command = new NpgsqlCommand("\"spTournaments_Insert\"", connection);
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournament_Insert\"", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
 
@@ -353,7 +352,7 @@ namespace PlannedLibrary.DataAccess
 
                 // Define a command to call the PostgreSQL function
                 // This code works with PostgreSQL functions not procedures
-                NpgsqlCommand command = new NpgsqlCommand("\"spTournamentEntries_Insert\"", connection);
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournamentEntry_Insert\"", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
 
@@ -380,9 +379,82 @@ namespace PlannedLibrary.DataAccess
 
             }
         }
+        private void SaveTournamentRounds(Tournament model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spMatch_Insert\"", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                NpgsqlCommand command2 = new NpgsqlCommand("\"spMatchEntry_Insert\"", connection);
+                command2.CommandType = CommandType.StoredProcedure;
+
+                int newMatchId = 0;
+                int newMatchEntryId = 0;
+                int counter = 1;
+
+                foreach (List<Match> round in model.Rounds)
+                {
+                    foreach (Match m in round)
+                    {
+                        // Since we are using command in a loop, we need to remove the prev. parameters each time
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("TournamentId", model.Id);
+                        command.Parameters.AddWithValue("MatchRound", m.Round);
+
+                        // Execute the procedure and obtain a result set
+                        //NpgsqlDataReader dr = command.ExecuteReader();
+                        // if it returns a single value, use ExecuteScalar!
+                        newMatchId = Convert.ToInt32(command.ExecuteScalar());
+                        m.Id = newMatchId;
+                        //tran.Commit();
+                        foreach (MatchEntry mEntry in m.Entries)
+                        {
+                            command2.Parameters.Clear();
+                            command2.Parameters.AddWithValue("MatchId", m.Id);
+                            if (mEntry.ParentMatch != null)
+                            {
+                                command2.Parameters.AddWithValue("ParentMatchId", mEntry.ParentMatch.Id);
+                            }
+                            else
+                            {
+                                // send DBNull.Value instead of null, otherwise Npgsql throw an exception
+                                command2.Parameters.AddWithValue("ParentMatchId", DBNull.Value);
+                            }
+                            if (mEntry.TeamCompeting != null)
+                            {
+                                command2.Parameters.AddWithValue("TeamCompetingId", mEntry.TeamCompeting.Id);
+                            }
+                            else
+                            {
+                                // send DBNull.Value instead of null, otherwise Npgsql throw an exception
+                                command2.Parameters.AddWithValue("TeamCompetingId", DBNull.Value);
+                            }
+
+                            // Execute the procedure and obtain a result set
+                            //NpgsqlDataReader dr = command.ExecuteReader();
+                            // if it returns a single value, use ExecuteScalar!
+                            newMatchEntryId = Convert.ToInt32(command2.ExecuteScalar());
+                            mEntry.Id = newMatchEntryId;
+                            //tran.Commit();
+                        }
+                    counter++;
+                    }
+                }
+
+                tran.Commit();
+                connection.Close();
 
 
-
+            }
+        }
 
     }
 }

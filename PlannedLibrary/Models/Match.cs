@@ -20,7 +20,7 @@ namespace PlannedLibrary.Models
         /// <summary>
         /// The winner of the match
         /// </summary>
-        public Team Winner { get; set; } = new Team();
+        public Team Winner { get; set; }// = new Team();
         /// <summary>
         /// The round that the match belongs to
         /// </summary>

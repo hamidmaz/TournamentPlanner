@@ -17,7 +17,7 @@ namespace PlannedLibrary
             // add byes (empty spots) to make the number of teams a power of 2
 
             int roundsNumber = FindNumberOfRounds(randomizedTeamsList.Count);
-            int byesNumber = (int)Math.Pow(2, roundsNumber) - randomizedTeamsList.Count;
+            int byesNumber = (int)Math.Pow(2, roundsNumber-1) - randomizedTeamsList.Count;
 
             // create the first round of matches
             model.Rounds.Add(CreateFirstRound(randomizedTeamsList,byesNumber));
@@ -54,8 +54,8 @@ namespace PlannedLibrary
                     currMatch = new Match();
                 }
 
-                newRound.Add(new Match());
-                currMatchEntry = new MatchEntry();
+                //newRound.Add(new Match());
+                //currMatchEntry = new MatchEntry();
             }
 
             return newRound;
@@ -84,8 +84,8 @@ namespace PlannedLibrary
                     }
                 }
 
-                firstRound.Add(new Match());
-                currMatchEntry = new MatchEntry();
+                //firstRound.Add(new Match());
+                //currMatchEntry = new MatchEntry();
             }
 
 
