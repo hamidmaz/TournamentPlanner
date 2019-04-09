@@ -19,7 +19,7 @@ namespace PlannedLibrary.Models
         /// <summary>
         /// The score of the team
         /// </summary>
-        public int Score { get; set; }
+        public string Score { get; set; }
         /// <summary>
         /// The previouse match of the team in the tournament
         /// </summary>

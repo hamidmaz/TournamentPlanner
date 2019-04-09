@@ -142,6 +142,8 @@ namespace PlannerUI
 
                 model = GlobalConfig.Connection.CreateTournament(model);
                 InitializeFieldsValue();
+                WireUpLists();
+
                 //this.Close();
             }
             else

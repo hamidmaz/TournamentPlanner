@@ -11,13 +11,6 @@ namespace PlannedLibrary.DataAccess
     public class TextFileConnector : IDataConnection
     {
 
-        private const string PrizesFileName = "Prizes.csv";
-        private const string PlayersFileName = "People.csv";
-        private const string TeamsFileName = "Teams.csv";
-        private const string TournamentsFileName = "Tournaments.csv";
-        private const string MatchupsFileName = "Matchups.csv";
-
-
         /// <summary>
         /// Save the new prize to a txt file and pass it with its unique identifier
         /// </summary>
@@ -27,21 +20,21 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of prizes
 
-            List<Prize> prizesList = PrizesFileName.LoadFile().ConvertToPrizes();
+            List<Prize> prizesList = GlobalConfig.PrizesFileName.LoadFile().ConvertToPrizes();
 
             //find the last id
             int lastId = 0;
             if (prizesList.Count != 0)
             {
-                lastId = prizesList[prizesList.Count - 1].Id;
-                
+                //lastId = prizesList[prizesList.Count - 1].Id;
+                lastId = prizesList.OrderByDescending(x => x.Id).First().Id;
             }
             model.Id = lastId + 1;
             // save the new one at the end of the file
 
             prizesList.Add(model);
 
-            prizesList.ConvertPrizesToString().SaveFile(PrizesFileName);
+            prizesList.ConvertPrizesToString().SaveFile(GlobalConfig.PrizesFileName);
             return model;
         }
 
@@ -49,13 +42,14 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of prizes
 
-            List<Player> playersList = PlayersFileName.LoadFile().ConvertToPlayers();
+            List<Player> playersList = GlobalConfig.PlayersFileName.LoadFile().ConvertToPlayers();
 
             //find the last id
             int lastId = 0;
             if (playersList.Count != 0)
             {
-                lastId = playersList[playersList.Count - 1].Id;
+                //lastId = playersList[playersList.Count - 1].Id;
+                lastId = playersList.OrderByDescending(x => x.Id).First().Id;
 
             }
             model.Id = lastId + 1;
@@ -63,7 +57,7 @@ namespace PlannedLibrary.DataAccess
 
             playersList.Add(model);
 
-            playersList.ConvertPlayersToString().SaveFile(PlayersFileName);
+            playersList.ConvertPlayersToString().SaveFile(GlobalConfig.PlayersFileName);
             return model;
         }
 
@@ -75,7 +69,7 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of people
 
-            return PlayersFileName.LoadFile().ConvertToPlayers();
+            return GlobalConfig.PlayersFileName.LoadFile().ConvertToPlayers();
             
         }
 
@@ -83,20 +77,21 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of teams
 
-            List<Team> teamsList = TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
+            List<Team> teamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams(GlobalConfig.PlayersFileName);
 
             //find the last id
             int lasTeamtId = 0;
             if (teamsList.Count != 0)
             {
-                lasTeamtId = teamsList[teamsList.Count - 1].Id;
+                //lasTeamtId = teamsList[teamsList.Count - 1].Id;
+                lasTeamtId = teamsList.OrderByDescending(x => x.Id).First().Id;
             }
             model.Id = lasTeamtId + 1;
             // save the new one at the end of the file
             
             teamsList.Add(model);
 
-            teamsList.ConvertTeamsToString().SaveFile(TeamsFileName);
+            teamsList.ConvertTeamsToString().SaveFile(GlobalConfig.TeamsFileName);
             return model;
         }
 
@@ -105,29 +100,37 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of prizes
 
-            return TeamsFileName.LoadFile().ConvertToTeams(PlayersFileName);
+            return GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams(GlobalConfig.PlayersFileName);
         }
 
 
         public Tournament CreateTournament(Tournament model)
         {
-            // Load the text file and convert it to a list of tournaments
+            // Load the text files and convert it to a list of match entries, matches, and tournaments
 
-            List<Tournament> tournamentsList = TeamsFileName.LoadFile().ConvertToTournaments(TournamentsFileName,PlayersFileName,PrizesFileName,MatchupsFileName);
+            
+            List<Tournament> tournamentsList = GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments(GlobalConfig.TeamsFileName, GlobalConfig.PlayersFileName, GlobalConfig.PrizesFileName, GlobalConfig.MatchesFileName, GlobalConfig.MatchEntriesFileName);
+            
+            //find the last ids
 
-            //find the last id
-            int lasTtId = 0;
+            int lastTournamenttId = 0;
             if (tournamentsList.Count != 0)
             {
-                lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
+                //lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
+                lastTournamenttId = tournamentsList.OrderByDescending(x => x.Id).First().Id;
             }
-            model.Id = lasTtId + 1;
-            // save the new one at the end of the file
+            model.Id = lastTournamenttId + 1;
+
+            // save the new one at the end of the file, but first need to populate ids for matches
 
             tournamentsList.Add(model);
 
-            tournamentsList.ConvertTournamentsToString().SaveFile(TournamentsFileName);
+            tournamentsList.ConvertTournamentsToString(out List<string> matchesStringList, out List<string> matchEntriesStringList).SaveFile(GlobalConfig.TournamentsFileName);
+            matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
+            matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
             return model;
         }
+
+        
     }
 }

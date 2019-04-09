@@ -10,6 +10,13 @@ namespace PlannedLibrary
 {
     public static class GlobalConfig
     {
+        public const string PrizesFileName = "Prizes.csv";
+        public const string PlayersFileName = "People.csv";
+        public const string TeamsFileName = "Teams.csv";
+        public const string TournamentsFileName = "Tournaments.csv";
+        public const string MatchesFileName = "Matches.csv";
+        public const string MatchEntriesFileName = "MatchEntries.csv";
+
         public static IDataConnection Connection { get; private set; } 
 
         public static void InitializeConnections(DatabaseType connectionType)
