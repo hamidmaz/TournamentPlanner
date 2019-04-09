@@ -72,7 +72,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             }
             return outputStringList;
         }
-
+         
 
         public static List<Player> ConvertToPlayers(this List<string> lines)
         {
@@ -486,5 +486,6 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return output;
         }
 
+        // TODO maybe implement lookup team by id
     }
 }

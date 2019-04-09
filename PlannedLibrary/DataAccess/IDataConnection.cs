@@ -23,6 +23,12 @@ namespace PlannedLibrary.DataAccess
         List<Player> GetPeople_All();
         List<Team> GetTeams_All();
         
-        
+        /// <summary>
+        /// return a list of tournaments with only their names and ids
+        /// </summary>
+        /// <returns></returns>
+        List<Tournament> GetTournament_All();
+
+
     }
 }

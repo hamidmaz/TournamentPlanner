@@ -4,6 +4,8 @@ namespace PlannedLibrary.Models
 {
     public class Tournament
     {
+        
+
         public int Id { get; set; }
         public string TournamentName { get; set; }
         public decimal EntryFee { get; set; }
@@ -12,9 +14,14 @@ namespace PlannedLibrary.Models
         public List<List<Match>> Rounds { get; set; } = new List<List<Match>>();
         public List<Prize> Prizes { get; set; } = new List<Prize>();
 
-        public void ArrangeMatchups()
+        public Tournament()
         {
 
+        }
+        public Tournament(int id, string tournamentName)
+        {
+            Id = id;
+            TournamentName = tournamentName;
         }
 
     }

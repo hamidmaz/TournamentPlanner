@@ -19,9 +19,9 @@ namespace PlannerUI
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Initialize the dataBase
-            GlobalConfig.InitializeConnections(DatabaseType.TextFile);
+            GlobalConfig.InitializeConnections(DatabaseType.PostgreSQL);
 
-            Application.Run(new CreatTournamentForm());
+            Application.Run(new TournamentDashboardForm());
 
             //Application.Run(new TournamentDashboardForm());
         }

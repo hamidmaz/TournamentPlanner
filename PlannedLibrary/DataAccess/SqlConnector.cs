@@ -64,5 +64,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public List<Tournament> GetTournament_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

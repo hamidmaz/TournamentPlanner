@@ -125,12 +125,17 @@ namespace PlannedLibrary.DataAccess
 
             tournamentsList.Add(model);
 
+            //save all three files
             tournamentsList.ConvertTournamentsToString(out List<string> matchesStringList, out List<string> matchEntriesStringList).SaveFile(GlobalConfig.TournamentsFileName);
             matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
             matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
             return model;
         }
 
-        
+        // TODO implement this
+        public List<Tournament> GetTournament_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

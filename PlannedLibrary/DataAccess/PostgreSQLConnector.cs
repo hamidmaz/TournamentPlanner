@@ -456,5 +456,41 @@ namespace PlannedLibrary.DataAccess
             }
         }
 
+        public List<Tournament> GetTournament_All()
+        {
+            List<Tournament> outputList = new List<Tournament>();
+
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                //NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spTournaments_GetAll\"", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                // Execute the procedure and obtain a result set
+                NpgsqlDataReader dr = command.ExecuteReader();
+
+                // Output rows 
+                while (dr.Read())
+                {
+                    // check if the tournament is active or not
+                    if (Convert.ToBoolean(dr[3]))
+                    {
+                        outputList.Add(new Tournament(
+                        Convert.ToInt32(dr[0]),
+                        Convert.ToString(dr[1])));
+                    }
+                }
+
+                //tran.Commit();
+                connection.Close();
+            }
+
+            return outputList;
+        }
     }
 }
