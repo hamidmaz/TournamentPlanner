@@ -189,7 +189,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 if (cols[3] != "")
                 {
                     mEntry.ParentMatch = new Match();
-                    mEntry.ParentMatch.Id = Convert.ToInt32(cols[1]);
+                    mEntry.ParentMatch.Id = Convert.ToInt32(cols[3]);
 
                 }
                 allMatchEntriesList.Add(mEntry);
@@ -216,7 +216,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
 
                 if (cols[1] != "")
                 {
-                    MatchEntry winnerEntity = m.Entries.Where(x => x.TeamCompeting.Id == Convert.ToInt32(cols[2])).First();
+                    MatchEntry winnerEntity = m.Entries.Where(x => x.TeamCompeting.Id == Convert.ToInt32(cols[1])).First();
                     m.Winner = winnerEntity.TeamCompeting;
                 }
 
@@ -228,8 +228,12 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             Match parentMatch = new Match();
             foreach (MatchEntry mEntry in allMatchEntriesList)
             {
-                parentMatch = allMatchesList.Where(x => x.Id == mEntry.ParentMatch.Id).First();
-                mEntry.ParentMatch = parentMatch;
+                if (mEntry.ParentMatch != null)
+                {
+                    parentMatch = allMatchesList.Where(x => x.Id == mEntry.ParentMatch.Id).First();
+                    mEntry.ParentMatch = parentMatch;
+
+                }
             }
 
             return allMatchesList;

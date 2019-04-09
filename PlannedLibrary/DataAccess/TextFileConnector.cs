@@ -108,9 +108,9 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text files and convert it to a list of match entries, matches, and tournaments
 
-            
-            List<Tournament> tournamentsList = GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments(GlobalConfig.TeamsFileName, GlobalConfig.PlayersFileName, GlobalConfig.PrizesFileName, GlobalConfig.MatchesFileName, GlobalConfig.MatchEntriesFileName);
-            
+
+            List<Tournament> tournamentsList = GetTournament_All();
+
             //find the last ids
 
             int lastTournamenttId = 0;
@@ -135,7 +135,8 @@ namespace PlannedLibrary.DataAccess
         // TODO implement this
         public List<Tournament> GetTournament_All()
         {
-            throw new NotImplementedException();
+            return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments(GlobalConfig.TeamsFileName, GlobalConfig.PlayersFileName, GlobalConfig.PrizesFileName, GlobalConfig.MatchesFileName, GlobalConfig.MatchEntriesFileName);
+
         }
     }
 }
