@@ -25,5 +25,20 @@ namespace PlannedLibrary.Models
         /// The round that the match belongs to
         /// </summary>
         public int Round { get; set; }
+
+        public string FullMatchName
+        {
+            get
+            {
+                if (this.Entries.Count > 1)
+                {
+                    return $"{this.Id}. {this.Entries[0].MatchEntryName()} vs. {this.Entries[1].MatchEntryName()}";
+                }
+                else
+                {
+                    return $"{this.Id}. {this.Entries[0].MatchEntryName()} vs. BYE";
+                }
+            }
+        }
     }
 }

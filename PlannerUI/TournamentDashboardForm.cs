@@ -27,7 +27,9 @@ namespace PlannerUI
 
         private void loadTournamentButton_Click(object sender, EventArgs e)
         {
-            TournamentViewerForm frm = new TournamentViewerForm();
+            // TODO load tourament completely with SQL
+            selectedTournamet = selectTournamentComboBox.SelectedItem as Tournament;
+            TournamentViewerForm frm = new TournamentViewerForm(selectedTournamet);
             frm.Show();
         }
 

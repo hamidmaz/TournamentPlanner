@@ -102,11 +102,11 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<Team> ConvertToTeams(this List<string> lines, string playersFileName)
+        public static List<Team> ConvertToTeams(this List<string> lines)
         {
             List<Team> outputList = new List<Team>();
             List<Player> teamMebmersList;
-            List<Player> allPlayersList = playersFileName.LoadFile().ConvertToPlayers();
+            List<Player> allPlayersList = GlobalConfig.PlayersFileName.LoadFile().ConvertToPlayers();
 
             foreach (string line in lines)
             {
@@ -160,13 +160,12 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         }
         
 
-        private static List<Match> ConvertToMatchesAndMatchEntries(this List<string> matchLines, List<string> matchEntryLines, string teamsFileName, string playersFileName, out List<MatchEntry> allMatchEntriesList)
+        private static List<Match> ConvertToMatchesAndMatchEntries(this List<string> matchLines, List<string> matchEntryLines, out List<MatchEntry> allMatchEntriesList)
         {
-            
             List<Match> allMatchesList = new List<Match>();
             allMatchEntriesList = new List<MatchEntry>();
-            List<Team> teamsList;
-            List<Team> allTeamsList = teamsFileName.LoadFile().ConvertToTeams(playersFileName);
+            
+            List<Team> allTeamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
 
             //populate all match entries with fake parent matches (only contains the ids to the parent match)
             foreach (string matchEntryLine in matchEntryLines)
@@ -175,8 +174,6 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 MatchEntry mEntry = new MatchEntry();
 
                 mEntry.Id = Convert.ToInt32(cols[0]);
-                
-                teamsList = new List<Team>();
                 if (cols[1] != "")
                 {
                     mEntry.TeamCompeting = allTeamsList.Where(x => x.Id == Convert.ToInt32(cols[1])).First();
@@ -301,12 +298,12 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         
 
 
-        public static List<Tournament> ConvertToTournaments(this List<string> lines, string teamsFileName,string playersFileName, string prizesFileName, string matchesFileName, string matchEntriesFileName)
+        public static List<Tournament> ConvertToTournaments(this List<string> lines)
         {
             List<Tournament> outputList = new List<Tournament>();
             List<MatchEntry> allmatchEntriesList;
-            List<string> matchEntriesStringList = matchEntriesFileName.LoadFile();
-            List<Match> allmatchesList = matchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, teamsFileName, playersFileName,out allmatchEntriesList);
+            List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
+            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList,out allmatchEntriesList);
 
             foreach (string line in lines)
             {
@@ -316,8 +313,8 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 tour.Id = Convert.ToInt32(cols[0]);
                 tour.TournamentName = cols[1];
                 tour.EntryFee = Convert.ToDecimal(cols[2]);
-                tour.Teams = ConvertIdStringToTeamList(cols[3], teamsFileName, playersFileName);
-                tour.Prizes = ConvertIdStringToPrizeList(cols[4], prizesFileName);
+                tour.Teams = ConvertIdStringToTeamList(cols[3]);
+                tour.Prizes = ConvertIdStringToPrizeList(cols[4]);
                 tour.Rounds = ConvertIdStringToRoundList(cols[5], allmatchesList, allmatchEntriesList);
 
                 outputList.Add(tour);
@@ -349,9 +346,9 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputStringList;
         }
 
-        private static List<Team> ConvertIdStringToTeamList(string teamIdString, string teamsFileName, string playersFileName)
+        private static List<Team> ConvertIdStringToTeamList(string teamIdString)
         {
-            List<Team> allTeamsList = teamsFileName.LoadFile().ConvertToTeams(playersFileName);
+            List<Team> allTeamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
             List<Team> tournamentTeamsList = new List<Team>();
             if (teamIdString != "")
             {
@@ -364,9 +361,9 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             }
             return tournamentTeamsList;
         }
-        private static List<Prize> ConvertIdStringToPrizeList(string prizeIdString, string prizesFileName)
+        private static List<Prize> ConvertIdStringToPrizeList(string prizeIdString)
         {
-            List<Prize> allPrizesList = prizesFileName.LoadFile().ConvertToPrizes();
+            List<Prize> allPrizesList = GlobalConfig.PrizesFileName.LoadFile().ConvertToPrizes();
             List<Prize> tournamentPrizesList = new List<Prize>();
             if (prizeIdString != "")
             {
@@ -387,10 +384,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             {
                 roundMatchesList.Add((allmatchesList.Where(x => x.Id == Convert.ToInt32(matchId)).First()));
             }
-            foreach (Match match in roundMatchesList)
-            {
-                match.Entries = allmatchEntriesList.Where(x => x.Id == match.Id) as List<MatchEntry>;
-            }
+
             return roundMatchesList;
         }
         private static List<List<Match>> ConvertIdStringToRoundList(string roundsIdString, List<Match> allmatchesList, List<MatchEntry> allmatchEntriesList)
@@ -444,7 +438,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             // find last Ids for match entires and matches--------------------------------------
             List<MatchEntry> allmatchEntriesList;
             List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
-            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, GlobalConfig.TeamsFileName, GlobalConfig.PlayersFileName, out allmatchEntriesList);
+            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
 
 
             int lastMatchEntrytId = 0;

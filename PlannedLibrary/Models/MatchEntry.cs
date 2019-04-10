@@ -24,5 +24,19 @@ namespace PlannedLibrary.Models
         /// The previouse match of the team in the tournament
         /// </summary>
         public Match ParentMatch { get; set; }// = new Match();
+
+        public string MatchEntryName()
+        {
+            
+            if (this.TeamCompeting != null)
+            {
+                return $"{this.TeamCompeting.TeamName}";
+            }
+            else
+            {
+                return $"Winner of match {this.ParentMatch.Id}";
+            }
+            
+        }
     }
 }

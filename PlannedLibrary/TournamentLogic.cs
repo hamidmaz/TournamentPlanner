@@ -80,6 +80,7 @@ namespace PlannedLibrary
                     currMatch = new Match();
                     if (byesNumbers > 0)
                     {
+                        currMatch.Winner = currMatch.Entries[0].TeamCompeting;
                         byesNumbers--;
                     }
                 }

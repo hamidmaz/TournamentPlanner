@@ -77,7 +77,7 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of teams
 
-            List<Team> teamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams(GlobalConfig.PlayersFileName);
+            List<Team> teamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
 
             //find the last id
             int lasTeamtId = 0;
@@ -100,7 +100,7 @@ namespace PlannedLibrary.DataAccess
         {
             // Load the text file and convert it to a list of prizes
 
-            return GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams(GlobalConfig.PlayersFileName);
+            return GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
         }
 
 
@@ -132,10 +132,9 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        // TODO implement this
         public List<Tournament> GetTournament_All()
         {
-            return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments(GlobalConfig.TeamsFileName, GlobalConfig.PlayersFileName, GlobalConfig.PrizesFileName, GlobalConfig.MatchesFileName, GlobalConfig.MatchEntriesFileName);
+            return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments();
 
         }
     }
