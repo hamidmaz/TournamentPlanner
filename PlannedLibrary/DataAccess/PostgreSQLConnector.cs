@@ -492,5 +492,53 @@ namespace PlannedLibrary.DataAccess
 
             return outputList;
         }
+
+
+        public void UpdateMatch(Match model)
+        {
+            using (var connection = new NpgsqlConnection(CnnString))
+            {
+                // TODO not tested yet, first need to implement complete tournamnet in SQL
+                connection.Open();
+                // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
+                NpgsqlTransaction tran = connection.BeginTransaction();
+
+                // Define a command to call the PostgreSQL function
+                // This code works with PostgreSQL functions not procedures
+                NpgsqlCommand command = new NpgsqlCommand("\"spMatches_Update\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("Id", model.Id);
+                command.Parameters.AddWithValue("WinnerId", model.Winner);
+
+                // Execute the procedure and obtain a result set
+                //NpgsqlDataReader dr = command.ExecuteReader();
+                // if it returns a single value, use ExecuteScalar!
+                command.ExecuteScalar();
+
+                command = new NpgsqlCommand("\"spMatchEntries_Update\"", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                foreach (MatchEntry mEntry in model.Entries)
+                {
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("Id", mEntry.Id);
+                    command.Parameters.AddWithValue("Score", mEntry.Score);
+                    command.Parameters.AddWithValue("TeamCompetingId", mEntry.TeamCompeting.Id);
+
+                    command.ExecuteScalar();
+                }
+                
+                // TOOD enter the winner team in the next round in SQL?!
+
+                tran.Commit();
+                connection.Close();
+                
+            }
+            
+
+        }
     }
 }

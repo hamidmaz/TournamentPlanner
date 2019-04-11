@@ -30,5 +30,9 @@ namespace PlannedLibrary.DataAccess
         List<Tournament> GetTournament_All();
 
 
+        void UpdateMatch(Match model);
+
+
+
     }
 }

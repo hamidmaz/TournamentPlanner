@@ -137,5 +137,13 @@ namespace PlannedLibrary.DataAccess
             return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments();
 
         }
+
+        // TODO implement this
+        public void UpdateMatch(Match model)
+        {
+            List<string> matchesStringList = model.UpdateMatchesAndMatchEntries(out List<string> matchEntriesStringList);
+            matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
+            matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
+        }
     }
 }

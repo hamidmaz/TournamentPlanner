@@ -1,4 +1,5 @@
-﻿using PlannedLibrary.Models;
+﻿using PlannedLibrary;
+using PlannedLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,6 @@ namespace PlannerUI
         bool tournamentFinished = false;
 
         // TODO remove this variables
-        // TODO disable round after it is done
 
         public TournamentViewerForm(Tournament tournamentmodel)
         {
@@ -35,18 +35,8 @@ namespace PlannerUI
         {
             if (ValidateForm())
             {
-                
-                selectedMatch.Entries[0].Score = teamOneScoreTextBox.Text;
-                selectedMatch.Entries[1].Score = teamTwoScoreTextBox.Text;
 
-                if (Convert.ToInt32(teamOneScoreTextBox.Text) > Convert.ToInt32(teamTwoScoreTextBox.Text))
-                {
-                    selectedMatch.Winner = selectedMatch.Entries[0].TeamCompeting;
-                }
-                else
-                {
-                    selectedMatch.Winner = selectedMatch.Entries[1].TeamCompeting;
-                }
+                AddScores(teamOneScoreTextBox.Text, teamTwoScoreTextBox.Text);
 
                 //check if the match is the final match
                 if (activeRoundIndex < tournament.Rounds.Count-1)
@@ -71,14 +61,29 @@ namespace PlannerUI
                     MessageBox.Show("Tournament finished!");
                     DisplayMatch();
                 }
-
-
-                // TODO to save to database
+                
             }
             else
             {
                 MessageBox.Show("Invalid inputs!");
             }
+        }
+
+        private void AddScores(string teamOneScore, string teamTwoScore)
+        {
+            selectedMatch.Entries[0].Score = teamOneScore;
+            selectedMatch.Entries[1].Score = teamTwoScore;
+
+            if (Convert.ToInt32(teamOneScore) > Convert.ToInt32(teamTwoScore))
+            {
+                selectedMatch.Winner = selectedMatch.Entries[0].TeamCompeting;
+            }
+            else
+            {
+                selectedMatch.Winner = selectedMatch.Entries[1].TeamCompeting;
+            }
+            // Save to data base
+            GlobalConfig.Connection.UpdateMatch(selectedMatch);
         }
 
         private void PutTheWinnerInNextRound()
@@ -93,6 +98,8 @@ namespace PlannerUI
                     if (mEntry.ParentMatch == selectedMatch)
                     {
                         mEntry.TeamCompeting = selectedMatch.Winner;
+                        GlobalConfig.Connection.UpdateMatch(m);
+                        break;
                     }
                 }
             }

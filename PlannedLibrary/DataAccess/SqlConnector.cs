@@ -69,5 +69,10 @@ namespace PlannedLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateMatch(Match model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

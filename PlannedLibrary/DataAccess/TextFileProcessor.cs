@@ -160,7 +160,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         }
         
 
-        private static List<Match> ConvertToMatchesAndMatchEntries(this List<string> matchLines, List<string> matchEntryLines, out List<MatchEntry> allMatchEntriesList)
+        public static List<Match> ConvertToMatchesAndMatchEntries(this List<string> matchLines, List<string> matchEntryLines, out List<MatchEntry> allMatchEntriesList)
         {
             List<Match> allMatchesList = new List<Match>();
             allMatchEntriesList = new List<MatchEntry>();
@@ -296,7 +296,34 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         }
 
         
+        public static List<string> UpdateMatchesAndMatchEntries (this Match currMatch, out List<string> matchEntriesStringList)
+        {
+            //reading all matches and match entries from text file
+            List<string> matchesStringList = GlobalConfig.MatchesFileName.LoadFile();
+            matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
 
+            //converting strings to list of match and match entries models
+            List<MatchEntry> allmatchEntriesList;
+            List<Match> allmatchesList = matchesStringList.ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
+
+            //update the model list
+            
+            Match oldmatch = allmatchesList.Where(x => x.Id == currMatch.Id).First();
+            allmatchesList.Remove(oldmatch);
+            allmatchesList.Add(currMatch);
+
+            MatchEntry oldMatchEntry;
+            foreach (MatchEntry mEntry in currMatch.Entries)
+            {
+                oldMatchEntry = allmatchEntriesList.Where(x => x.Id == mEntry.Id).First();
+                allmatchEntriesList.Remove(oldMatchEntry);
+                allmatchEntriesList.Add(mEntry);
+            }
+            // convert back the list to strings
+            matchEntriesStringList = allmatchEntriesList.ConvertMatchEntriesToString();
+            matchesStringList = allmatchesList.ConvertMatchesToString();
+            return matchesStringList;
+        }
 
         public static List<Tournament> ConvertToTournaments(this List<string> lines)
         {
