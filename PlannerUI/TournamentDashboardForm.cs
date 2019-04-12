@@ -27,10 +27,13 @@ namespace PlannerUI
 
         private void loadTournamentButton_Click(object sender, EventArgs e)
         {
-            // TODO load tourament completely with SQL
             selectedTournamet = selectTournamentComboBox.SelectedItem as Tournament;
-            TournamentViewerForm frm = new TournamentViewerForm(selectedTournamet);
-            frm.Show();
+            if (selectedTournamet != null)
+            {
+                selectedTournamet = GlobalConfig.Connection.GetTournamentInfo(selectedTournamet);
+                TournamentViewerForm frm = new TournamentViewerForm(selectedTournamet);
+                frm.Show();
+            }
         }
 
         private void WireUpLists()
@@ -47,7 +50,7 @@ namespace PlannerUI
         private void InitializeFieldsValue()
         {
             
-            availableTournaments = GlobalConfig.Connection.GetTournament_All();
+            availableTournaments = GlobalConfig.Connection.GetTournaments_List();
             
         }
 

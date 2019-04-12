@@ -27,8 +27,9 @@ namespace PlannedLibrary.DataAccess
         /// return a list of tournaments with only their names and ids
         /// </summary>
         /// <returns></returns>
-        List<Tournament> GetTournament_All();
+        List<Tournament> GetTournaments_List();
 
+        Tournament GetTournamentInfo(Tournament tournament);
 
         void UpdateMatch(Match model);
 

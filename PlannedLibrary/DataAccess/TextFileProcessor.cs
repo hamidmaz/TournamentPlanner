@@ -325,12 +325,9 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return matchesStringList;
         }
 
-        public static List<Tournament> ConvertToTournaments(this List<string> lines)
+        public static List<Tournament> ConvertToTournamentsList(this List<string> lines)
         {
             List<Tournament> outputList = new List<Tournament>();
-            List<MatchEntry> allmatchEntriesList;
-            List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
-            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList,out allmatchEntriesList);
 
             foreach (string line in lines)
             {
@@ -340,14 +337,33 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 tour.Id = Convert.ToInt32(cols[0]);
                 tour.TournamentName = cols[1];
                 tour.EntryFee = Convert.ToDecimal(cols[2]);
-                tour.Teams = ConvertIdStringToTeamList(cols[3]);
-                tour.Prizes = ConvertIdStringToPrizeList(cols[4]);
-                tour.Rounds = ConvertIdStringToRoundList(cols[5], allmatchesList, allmatchEntriesList);
 
                 outputList.Add(tour);
             }
             return outputList;
         }
+
+        public static Tournament CollectTournamentInfo(this List<string> lines, Tournament selectedTournament)
+        {
+            
+            List<MatchEntry> allmatchEntriesList;
+            List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
+            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
+
+            List<Tournament> outputList = new List<Tournament>();
+
+            foreach (string line in lines)
+            {
+                string[] cols = line.Split(',');
+                if (selectedTournament.Id == Convert.ToInt32(cols[0]))
+                {
+                    selectedTournament.Rounds = ConvertIdStringToRoundList(cols[5], allmatchesList, allmatchEntriesList);
+                    break;
+                }
+            }
+            return selectedTournament;
+        }
+
         public static List<string> ConvertTournamentsToString(this List<Tournament> tournamentsList, out List<string> matchesStringList, out List<string> matchEntriesStringList)
         {
             //id,name,fee,team1|team2|...,prize1|prize2|...,match1 of round1*match2 of round1*...|match1 of round2*match2 of round2*...|...
@@ -511,6 +527,6 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return output;
         }
 
-        // TODO maybe implement lookup team by id
+        // TODO 3 maybe implement lookup team by id
     }
 }

@@ -18,9 +18,10 @@ namespace PlannerUI
         List<Team> selectedTeams = new List<Team>();
         List<Prize> tournamentPrizes = new List<Prize>();
 
-        public ITournamentRequestor CallerForm { get; set; }
+        public ITournamentRequestor CallingForm { get; set; }
         public CreatTournamentForm(ITournamentRequestor callingForm)
         {
+            CallingForm = callingForm;
             InitializeComponent();
             InitializeFieldsValue();
             WireUpLists();
@@ -143,7 +144,7 @@ namespace PlannerUI
 
                 model = GlobalConfig.Connection.CreateTournament(model);
 
-                CallerForm.TournamentComplete(model);
+                CallingForm.TournamentComplete(model);
                 
                 //InitializeFieldsValue();
                 //WireUpLists();

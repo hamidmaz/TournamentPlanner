@@ -11,7 +11,7 @@ namespace PlannedLibrary.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
-        //Attention, this class was developed based on tutorial for Microsoft SQL server but
+        //Attention, this class was developed based on a tutorial for Microsoft SQL server but
         //never tested here. Instead, I used PostgreSQLConnector.cs
 
         /// <summary>
@@ -65,12 +65,17 @@ namespace PlannedLibrary.DataAccess
             throw new NotImplementedException();
         }
 
-        public List<Tournament> GetTournament_All()
+        public List<Tournament> GetTournaments_List()
         {
             throw new NotImplementedException();
         }
 
         public void UpdateMatch(Match model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tournament GetTournamentInfo(Tournament selectedTournament)
         {
             throw new NotImplementedException();
         }

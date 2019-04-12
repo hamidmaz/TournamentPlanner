@@ -109,7 +109,7 @@ namespace PlannedLibrary.DataAccess
             // Load the text files and convert it to a list of match entries, matches, and tournaments
 
 
-            List<Tournament> tournamentsList = GetTournament_All();
+            List<Tournament> tournamentsList = GetTournaments_List();
 
             //find the last ids
 
@@ -132,18 +132,24 @@ namespace PlannedLibrary.DataAccess
             return model;
         }
 
-        public List<Tournament> GetTournament_All()
+        public List<Tournament> GetTournaments_List()
         {
-            return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournaments();
+            return GlobalConfig.TournamentsFileName.LoadFile().ConvertToTournamentsList();
 
         }
 
-        // TODO implement this
+        public Tournament GetTournamentInfo(Tournament tournament)
+        {
+            tournament = GlobalConfig.TournamentsFileName.LoadFile().CollectTournamentInfo(tournament);
+            return tournament;
+        }
+
         public void UpdateMatch(Match model)
         {
             List<string> matchesStringList = model.UpdateMatchesAndMatchEntries(out List<string> matchEntriesStringList);
             matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
             matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
         }
+
     }
 }

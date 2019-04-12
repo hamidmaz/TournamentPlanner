@@ -76,17 +76,15 @@ namespace PlannedLibrary
 
                 if (byesNumbers > 0 || currMatch.Entries.Count > 1)
                 {
-                    firstRound.Add(currMatch);
-                    currMatch = new Match();
                     if (byesNumbers > 0)
                     {
                         currMatch.Winner = currMatch.Entries[0].TeamCompeting;
                         byesNumbers--;
                     }
+                    firstRound.Add(currMatch);
+                    currMatch = new Match();
                 }
 
-                //firstRound.Add(new Match());
-                //currMatchEntry = new MatchEntry();
             }
 
 
@@ -106,6 +104,43 @@ namespace PlannedLibrary
         private static List<Team> RandomizeTeams(List<Team> teams)
         {
             return teams.OrderBy(x => Guid.NewGuid()).ToList();
+        }
+
+
+        public static List<Match> FindUnplayedMatches(List<Match> round)
+        {
+            List<Match> roundUnplayed = new List<Match>();
+            foreach (Match m in round)
+            {
+                if (m.Winner == null)
+                {
+                    roundUnplayed.Add(m);
+                }
+            }
+            return roundUnplayed;
+        }
+
+
+        public static int FindActiveRound(List<List<Match>> tournamentRounds, out bool tournamentFinished)
+        {
+            List<Match> round;
+            List<Match> roundUnplayed;
+            tournamentFinished = false;
+            int i;
+            for (i = 0; i < tournamentRounds.Count; i++)
+            {
+
+                round = tournamentRounds[i];
+
+                roundUnplayed = TournamentLogic.FindUnplayedMatches(round);
+
+                if (roundUnplayed.Count != 0)
+                {
+                    return i;
+                }
+            }
+            tournamentFinished = true;
+            return i;
         }
     }
 }
