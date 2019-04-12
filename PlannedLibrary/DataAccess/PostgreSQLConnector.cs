@@ -14,6 +14,7 @@ namespace PlannedLibrary.DataAccess
     {
         // TODO 3 put this in app.config file, search how to avoid writing user and pass
         // TODO 3 synchronizeing the text and database saves?!
+        // TODO 2 check the first match is active
         private static string CnnString = "Host=localhost;Username=postgres;Password=hamidma1367;Database=Tournaments";
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace PlannedLibrary.DataAccess
 
             // put tournament in the database
             SaveTournament(model);
-            // purt prizes in the tournament
+            // put prizes in the tournament
             SaveTournamentPrizes(model);
             // put all the tournament entries (teams) in the database
             SaveTournamentEntries(model);
@@ -379,6 +380,10 @@ namespace PlannedLibrary.DataAccess
                         command.Parameters.AddWithValue("TournamentId", model.Id);
                         command.Parameters.AddWithValue("MatchRound", m.Round);
 
+                        if (m.Winner != null)
+                        {
+                            command.Parameters.AddWithValue("WinnerId", m.Winner.Id);
+                        }
                         // Execute the procedure and obtain a result set
                         //NpgsqlDataReader dr = command.ExecuteReader();
                         // if it returns a single value, use ExecuteScalar!
@@ -694,24 +699,26 @@ namespace PlannedLibrary.DataAccess
         {
             using (var connection = new NpgsqlConnection(CnnString))
             {
-                // TODO 1 not tested yet, first need to implement complete tournamnet in SQL
                 connection.Open();
                 // Start a transaction as it is required to work with result sets (cursors) in PostgreSQL
                 NpgsqlTransaction tran = connection.BeginTransaction();
 
                 // Define a command to call the PostgreSQL function
                 // This code works with PostgreSQL functions not procedures
-                NpgsqlCommand command = new NpgsqlCommand("\"spMatches_Update\"", connection);
+                NpgsqlCommand command = new NpgsqlCommand("\"spMatch_Update\"", connection);
 
-                command.CommandType = CommandType.StoredProcedure;
+                
+                if (model.Winner != null)
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
-                command.Parameters.AddWithValue("Id", model.Id);
-                command.Parameters.AddWithValue("WinnerId", model.Winner);
-
-                // Execute the procedure and obtain a result set
-                //NpgsqlDataReader dr = command.ExecuteReader();
-                // if it returns a single value, use ExecuteScalar!
-                command.ExecuteScalar();
+                    command.Parameters.AddWithValue("Id", model.Id);
+                    command.Parameters.AddWithValue("winnerId", model.Winner.Id);
+                    // Execute the procedure and obtain a result set
+                    //NpgsqlDataReader dr = command.ExecuteReader();
+                    // if it returns a single value, use ExecuteScalar!
+                    command.ExecuteScalar();
+                }
 
                 UpdateMatchEntries(model.Entries, connection);
 
@@ -723,18 +730,25 @@ namespace PlannedLibrary.DataAccess
         }
         private void UpdateMatchEntries(List<MatchEntry> matchEntriesList, NpgsqlConnection connection)
         {
-            NpgsqlCommand command = new NpgsqlCommand("\"spMatchEntries_Update\"", connection);
+            NpgsqlCommand command = new NpgsqlCommand("\"spMatchEntry_Update\"", connection);
 
             command.CommandType = CommandType.StoredProcedure;
 
             foreach (MatchEntry mEntry in matchEntriesList)
             {
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("Id", mEntry.Id);
-                command.Parameters.AddWithValue("Score", mEntry.Score);
-                command.Parameters.AddWithValue("TeamCompetingId", mEntry.TeamCompeting.Id);
+                if (mEntry.TeamCompeting != null)
+                {
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("Id", mEntry.Id);
+                    command.Parameters.AddWithValue("teamCompetingId", mEntry.TeamCompeting.Id);
+                    if (mEntry.Score != null)
+                    {
+                        command.Parameters.AddWithValue("score", Convert.ToInt32(mEntry.Score));
+                    }
 
-                command.ExecuteScalar();
+                    command.ExecuteScalar();
+                }
+                
             }
         }
     }
