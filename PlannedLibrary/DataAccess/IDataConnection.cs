@@ -14,11 +14,11 @@ namespace PlannedLibrary.DataAccess
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Prize CreatePrize(Prize model);
+        void CreatePrize(Prize model);
 
-        Player CreatePlayer(Player model);
-        Team CreateTeam(Team model);
-        Tournament CreateTournament(Tournament model);
+        void CreatePlayer(Player model);
+        void CreateTeam(Team model);
+        void CreateTournament(Tournament model);
 
         List<Player> GetPeople_All();
         List<Team> GetTeams_All();

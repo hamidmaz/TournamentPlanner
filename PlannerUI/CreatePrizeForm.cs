@@ -35,7 +35,7 @@ namespace PlannerUI
                     prizeAmountTextBox.Text,
                     prizePercentageTextBox.Text);
 
-                model = GlobalConfig.Connection.CreatePrize(model);
+                GlobalConfig.Connection.CreatePrize(model);
 
                 CallerForm.PrizeComplete(model);
                 

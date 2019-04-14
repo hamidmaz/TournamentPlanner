@@ -53,7 +53,7 @@ namespace PlannerUI
                     emailTextBox.Text,
                     mobileNrTextBox.Text);
 
-                model = GlobalConfig.Connection.CreatePlayer(model);
+                GlobalConfig.Connection.CreatePlayer(model);
 
                 CleanNewMemberFields();
 

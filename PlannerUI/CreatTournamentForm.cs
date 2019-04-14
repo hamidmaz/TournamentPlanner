@@ -142,7 +142,7 @@ namespace PlannerUI
                 //Wire up matches
                 TournamentLogic.CreateRounds(model);
 
-                model = GlobalConfig.Connection.CreateTournament(model);
+                GlobalConfig.Connection.CreateTournament(model);
 
                 CallingForm.TournamentComplete(model);
                 

@@ -140,7 +140,25 @@ namespace PlannedLibrary
                 }
             }
             tournamentFinished = true;
-            return i;
+            return i-1;
+        }
+
+        public static void PutTheWinnerInNextRound(Tournament tournament, Match match)
+        {
+            int nextRound = match.Round + 1;
+            foreach (Match m in tournament.Rounds[nextRound-1])
+            {
+                foreach (MatchEntry mEntry in m.Entries)
+                {
+                    if (mEntry.ParentMatch == match)
+                    {
+                        mEntry.TeamCompeting = match.Winner;
+                        GlobalConfig.Connection.UpdateMatch(m);
+                        break;
+                    }
+                }
+            }
+
         }
     }
 }

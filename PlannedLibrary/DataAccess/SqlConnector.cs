@@ -19,7 +19,7 @@ namespace PlannedLibrary.DataAccess
         /// </summary>
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
-        public Prize CreatePrize(Prize model)
+        public void CreatePrize(Prize model)
         {
             //using this using block! avoid any memory link since
             // it close the connection at the end and do not keep 
@@ -36,11 +36,10 @@ namespace PlannedLibrary.DataAccess
                 connection.Execute("db.spPrizes_Insert", p, commandType: CommandType.StoredProcedure);
 
                 model.Id = p.Get<int>("@id");
-                return model;
             }
         }
 
-        public Player CreatePlayer(Player model)
+        public void CreatePlayer(Player model)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +49,7 @@ namespace PlannedLibrary.DataAccess
             throw new NotImplementedException();
         }
 
-        public Team CreateTeam(Team model)
+        public void CreateTeam(Team model)
         {
             throw new NotImplementedException();
         }
@@ -60,7 +59,7 @@ namespace PlannedLibrary.DataAccess
             throw new NotImplementedException();
         }
 
-        public Tournament CreateTournament(Tournament model)
+        public void CreateTournament(Tournament model)
         {
             throw new NotImplementedException();
         }

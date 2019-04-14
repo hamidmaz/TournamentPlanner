@@ -14,7 +14,6 @@ namespace PlannedLibrary.DataAccess
     {
         // TODO 3 put this in app.config file, search how to avoid writing user and pass
         // TODO 3 synchronizeing the text and database saves?!
-        // TODO 2 check the first match is active
         private static string CnnString = "Host=localhost;Username=postgres;Password=hamidma1367;Database=Tournaments";
 
         /// <summary>
@@ -22,7 +21,7 @@ namespace PlannedLibrary.DataAccess
         /// </summary>
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
-        public Prize CreatePrize(Prize model)
+        public void CreatePrize(Prize model)
         {
 
             using (var connection = new NpgsqlConnection(CnnString))
@@ -55,13 +54,9 @@ namespace PlannedLibrary.DataAccess
 
                 model.Id = newId;
             }
-
-            return model;
-
-
         }
 
-        public Player CreatePlayer(Player model)
+        public void CreatePlayer(Player model)
         {
             using (var connection = new NpgsqlConnection(CnnString))
             {
@@ -93,7 +88,6 @@ namespace PlannedLibrary.DataAccess
 
                 model.Id = newId;
             }
-            return model;
         }
         public List<Player> GetPeople_All()
         {
@@ -131,7 +125,7 @@ namespace PlannedLibrary.DataAccess
             return outputList;
         }
 
-        public Team CreateTeam(Team model)
+        public void CreateTeam(Team model)
         {
             using (var connection = new NpgsqlConnection(CnnString))
             {
@@ -195,7 +189,6 @@ namespace PlannedLibrary.DataAccess
 
                 
             }
-            return model;
         }
         public List<Team> GetTeams_All()
         {
@@ -240,7 +233,7 @@ namespace PlannedLibrary.DataAccess
         }
 
 
-        public Tournament CreateTournament(Tournament model)
+        public void CreateTournament(Tournament model)
         {
 
             // put tournament in the database
@@ -251,7 +244,6 @@ namespace PlannedLibrary.DataAccess
             SaveTournamentEntries(model);
             // put all the matches in the database
             SaveTournamentRounds(model);
-            return model;
         }
 
         private void SaveTournament(Tournament model)

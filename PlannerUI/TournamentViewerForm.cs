@@ -22,7 +22,7 @@ namespace PlannerUI
         private List<int> roundIds;
         bool tournamentFinished = false;
 
-        // TODO 2 remove this variables
+        // TODO 2 remove these variables
 
         public TournamentViewerForm(Tournament tournamentmodel)
         {
@@ -41,12 +41,14 @@ namespace PlannerUI
                 //check if the match is the final match
                 if (activeRoundIndex < tournament.Rounds.Count-1)
                 { 
-                    PutTheWinnerInNextRound();
+                    TournamentLogic.PutTheWinnerInNextRound(tournament, selectedMatch);
                     selectedRoundUnplayed = TournamentLogic.FindUnplayedMatches(selectedRound);
                     if (selectedRoundUnplayed.Count == 0)
                     {
-                        activeRoundIndex++;
+                        
                         MessageBox.Show("Round finished!");
+                        activeRoundIndex++;
+                        WireUpMatchList(activeRoundIndex);
                         DisplayMatch();
                     }
 
@@ -86,25 +88,7 @@ namespace PlannerUI
             GlobalConfig.Connection.UpdateMatch(selectedMatch);
         }
 
-        private void PutTheWinnerInNextRound()
-        {
-
-            int nextRoundIndex = Convert.ToInt32(roundComboBox.SelectedItem);
-
-            foreach (Match m in tournament.Rounds[nextRoundIndex])
-            {
-                foreach (MatchEntry mEntry in m.Entries)
-                {
-                    if (mEntry.ParentMatch == selectedMatch)
-                    {
-                        mEntry.TeamCompeting = selectedMatch.Winner;
-                        GlobalConfig.Connection.UpdateMatch(m);
-                        break;
-                    }
-                }
-            }
-            
-        }
+        
         private void LoadRoundIds()
         {
             roundIds = new List<int>();
@@ -138,8 +122,6 @@ namespace PlannerUI
             matchListBox.DisplayMember = "FullMatchName";
         }
 
-        
-
 
         private void LoadMatch(int matchIndex)
         {
@@ -164,9 +146,15 @@ namespace PlannerUI
             tournamentNameLabel.Text = tournament.TournamentName;
             LoadRoundIds();
             activeRoundIndex = TournamentLogic.FindActiveRound(tournament.Rounds, out tournamentFinished);
+            WireUpMatchList(activeRoundIndex);
+            unPlayedOnlyCheckBox.Checked = false;
+        }
+
+        private void WireUpMatchList(int activeRoundIndex)
+        {
+            
             roundComboBox.SelectedItem = activeRoundIndex + 1;
             selectedMatch = selectedRound[0];
-            unPlayedOnlyCheckBox.Checked = false;
         }
 
         private void roundComboBox_SelectedIndexChanged(object sender, EventArgs e)

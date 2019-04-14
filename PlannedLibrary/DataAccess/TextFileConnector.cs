@@ -16,7 +16,7 @@ namespace PlannedLibrary.DataAccess
         /// </summary>
         /// <param name="model"> The new prize</param>
         /// <returns> The prize with a unique identifier</returns>
-        public Prize CreatePrize(Prize model)
+        public void CreatePrize(Prize model)
         {
             // Load the text file and convert it to a list of prizes
 
@@ -35,10 +35,9 @@ namespace PlannedLibrary.DataAccess
             prizesList.Add(model);
 
             prizesList.ConvertPrizesToString().SaveFile(GlobalConfig.PrizesFileName);
-            return model;
         }
 
-        public Player CreatePlayer(Player model)
+        public void CreatePlayer(Player model)
         {
             // Load the text file and convert it to a list of prizes
 
@@ -58,7 +57,6 @@ namespace PlannedLibrary.DataAccess
             playersList.Add(model);
 
             playersList.ConvertPlayersToString().SaveFile(GlobalConfig.PlayersFileName);
-            return model;
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace PlannedLibrary.DataAccess
             
         }
 
-        public Team CreateTeam(Team model)
+        public void CreateTeam(Team model)
         {
             // Load the text file and convert it to a list of teams
 
@@ -92,7 +90,6 @@ namespace PlannedLibrary.DataAccess
             teamsList.Add(model);
 
             teamsList.ConvertTeamsToString().SaveFile(GlobalConfig.TeamsFileName);
-            return model;
         }
 
          
@@ -104,7 +101,7 @@ namespace PlannedLibrary.DataAccess
         }
 
 
-        public Tournament CreateTournament(Tournament model)
+        public void CreateTournament(Tournament model)
         {
             // Load the text files and convert it to a list of match entries, matches, and tournaments
 
@@ -129,7 +126,6 @@ namespace PlannedLibrary.DataAccess
             tournamentsList.ConvertTournamentsToString(out List<string> matchesStringList, out List<string> matchEntriesStringList).SaveFile(GlobalConfig.TournamentsFileName);
             matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
             matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
-            return model;
         }
 
         public List<Tournament> GetTournaments_List()
