@@ -197,6 +197,7 @@ namespace PlannerUI
         {
             teamNameTextBox.Text = "";
             availablePlayers = GlobalConfig.Connection.GetPeople_All();
+            availablePlayers = availablePlayers.OrderBy(x => x.LastName).ToList();
             selectedPlayers.Clear();
         }
         private void CleanNewMemberFields()
