@@ -2,12 +2,6 @@
 using PlannedLibrary.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlannerUI
@@ -15,14 +9,13 @@ namespace PlannerUI
     public partial class TournamentViewerForm : Form
     {
         private Tournament tournament;
-        int activeRoundIndex = 0;
+        private int activeRoundIndex = 0;
         private List<Match> selectedRound = new List<Match>();
         private List<Match> selectedRoundUnplayed = new List<Match>();
         private Match selectedMatch;
         private List<int> roundIds;
-        bool tournamentFinished = false;
 
-        // TODO 2 remove these variables
+        private bool tournamentFinished = false;
 
         public TournamentViewerForm(Tournament tournamentmodel)
         {

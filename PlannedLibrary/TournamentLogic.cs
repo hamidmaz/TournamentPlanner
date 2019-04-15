@@ -192,7 +192,7 @@ namespace PlannedLibrary
                 body.AppendLine("<h1> You have a new match</h1>");
                 body.Append("<Strong> Competetor: </Strong>");
                 body.Append(competetor.TeamCompeting.TeamName);
-                body.AppendLine();
+                body.AppendLine("");
                 body.AppendLine();
                 body.AppendLine("Have a great time!");
                 body.AppendLine("~Tournament Planner");
@@ -246,16 +246,20 @@ namespace PlannedLibrary
             Team winnerTeam = tournament.Rounds.Last()[0].Winner;
             StringBuilder body = new StringBuilder();
                         
-            string prizeMessage = tournament.MakePrizeMessage();
+            
                         
             body.AppendLine("<h1> The tournament is finally finished!</h1>");
             body.Append("<Strong> Champion: </Strong>");
             body.Append(winnerTeam.TeamName);
             body.AppendLine();
             body.AppendLine();
-            body.Append(prizeMessage);
-            body.AppendLine();
-            body.AppendLine();
+            if (tournament.Prizes.Count>0)
+            {
+                string prizeMessage = tournament.MakePrizeMessage();
+                body.Append(prizeMessage);
+                body.AppendLine();
+                body.AppendLine();
+            }
             body.AppendLine("Have a great time!");
             body.AppendLine("~Tournament Planner");
 

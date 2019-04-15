@@ -69,25 +69,32 @@ namespace PlannerUI
 
         private void addMemberButton_Click(object sender, EventArgs e)
         {
-            Player selectedP = selectPlayerComboBox.SelectedItem as Player;
+            ListBox.SelectedObjectCollection selectedP = selectPlayerListBox.SelectedItems;
 
             // check to make sure sth is selected and the obj is not null
-            if (selectedP != null)
+            if (selectedP.Count != 0)
             {
-                selectedPlayers.Add(selectedP);
-                availablePlayers.Remove(selectedP);
+                foreach (Player p in selectedP)
+                {
+                    this.selectedPlayers.Add(p);
+                    availablePlayers.Remove(p);
+                }
                 WireUpLists(); 
             }
         }
         private void removeSelectedTeamMembersButton_Click(object sender, EventArgs e)
         {
-            Player selectedP = teamMembersListBox.SelectedItem as Player;
+            ListBox.SelectedObjectCollection selectedP = teamMembersListBox.SelectedItems;
 
             // check to make sure sth is selected and the obj is not null
-            if (selectedP != null)
+            if (selectedP.Count != 0)
             {
-                selectedPlayers.Remove(selectedP);
-                availablePlayers.Add(selectedP);
+                foreach (Player p in selectedP)
+                {
+                    this.selectedPlayers.Remove(p);
+                    availablePlayers.Add(p);
+                }
+                
                 WireUpLists(); 
             }
         }
@@ -177,9 +184,9 @@ namespace PlannerUI
             // if you do not set the datasource of a comboBox to null
             //before the main values, it will not be updated every time
             // you change it and will only work the first time! Do not know why...
-            selectPlayerComboBox.DataSource = null;
-            selectPlayerComboBox.DataSource = availablePlayers;
-            selectPlayerComboBox.DisplayMember = "FullName";
+            selectPlayerListBox.DataSource = null;
+            selectPlayerListBox.DataSource = availablePlayers;
+            selectPlayerListBox.DisplayMember = "FullName";
 
             teamMembersListBox.DataSource = null;
             teamMembersListBox.DataSource = selectedPlayers;
@@ -200,9 +207,6 @@ namespace PlannerUI
             mobileNrTextBox.Text = "";
 
         }
-
-
-
 
 
     }
