@@ -16,7 +16,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
     {
         // "this" keyword in the input make the method an extension for 
         //string type which is only available in this namespace
-        public static string FullFilePath (this string fileName)
+        public static string FullFilePath(this string fileName)
         {
             return $"{GlobalConfig.AppKeyLookUp("filePath")}\\{fileName}";
         }
@@ -27,7 +27,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         /// </summary>
         /// <param name="file"> file name, not the full file path</param>
         /// <returns></returns>
-        public static List<string> LoadFile (this string fileName)
+        public static List<string> LoadFile(this string fileName)
         {
             if (!File.Exists(fileName.FullFilePath()))
             {
@@ -36,7 +36,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             else
             {
                 return File.ReadAllLines(fileName.FullFilePath()).ToList();
-            }    
+            }
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         /// </summary>
         /// <param name="file"> file name, not the full file path</param>
         /// <returns></returns>
-        public static void SaveFile (this List<string> lines, string fileName)
+        public static void SaveFile(this List<string> lines, string fileName)
         {
             File.WriteAllLines(fileName.FullFilePath(), lines);
         }
@@ -72,7 +72,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             }
             return outputStringList;
         }
-         
+
 
         public static List<Player> ConvertToPlayers(this List<string> lines)
         {
@@ -81,7 +81,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             {
                 string[] cols = line.Split(',');
                 Player p = new Player(Convert.ToInt32(cols[0]), cols[1], cols[2], cols[3], cols[4]);
-                
+
                 outputList.Add(p);
             }
             return outputList;
@@ -105,34 +105,48 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         public static List<Team> ConvertToTeams(this List<string> lines)
         {
             List<Team> outputList = new List<Team>();
-            List<Player> teamMebmersList;
+
             List<Player> allPlayersList = GlobalConfig.PlayersFileName.LoadFile().ConvertToPlayers();
 
+            Team t;
             foreach (string line in lines)
             {
                 string[] cols = line.Split(',');
-                Team t = new Team();
+                t = new Team();
 
                 t.Id = Convert.ToInt32(cols[0]);
                 t.TeamName = cols[1];
-
-                
-                teamMebmersList= new List<Player>();
-                if (cols[2] != "")
-                {
-
-                    string[] teamMemberIds = cols[2].Split('|');
-                    foreach (string memberId in teamMemberIds)
-                    {
-                        teamMebmersList.Add((allPlayersList.Where(x => x.Id == Convert.ToInt32(memberId)).First()));
-                    } 
-                }
-                t.TeamMembers = teamMebmersList;
+                t.TeamMembers = ConvertIdStringToTeamMembersList(cols[2], allPlayersList);
 
                 outputList.Add(t);
             }
             return outputList;
         }
+
+        private static List<Player> ConvertIdStringToTeamMembersList(string memebersString, List<Player> allPlayersList)
+        {
+            List<Player> teamMebmersList = new List<Player>();
+            if (memebersString != "")
+            {
+
+                string[] teamMemberIds = memebersString.Split('|');
+                foreach (string memberId in teamMemberIds)
+                {
+                    teamMebmersList.Add((allPlayersList.Where(x => x.Id == Convert.ToInt32(memberId)).First()));
+                }
+            }
+            return teamMebmersList;
+        }
+        private static string ConvertTeamMembersToIdString(List<Player> teamMembers)
+        {
+            string output = "";
+            foreach (Player p in teamMembers)
+            {
+                output = $"{output}{p.Id}|";
+            }
+            return output;
+        }
+
         /// <summary>
         /// Converts new teams to strings without their teammembers. 
         /// </summary>
@@ -144,30 +158,52 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             foreach (Team t in teamsList)
             {
                 string teamString = $"{t.Id},{t.TeamName},";
-                
-                foreach (Player p in t.TeamMembers)
-                {
-                    teamString = $"{teamString}{p.Id}|";
-                }
-                if (t.TeamMembers.Count >0)
+
+                teamString = $"{teamString}{ConvertTeamMembersToIdString(t.TeamMembers)}";
+
+                if (t.TeamMembers.Count > 0)
                 {
 
-                    teamString = teamString.Remove(teamString.Length-1);
+                    teamString = teamString.Remove(teamString.Length - 1);
                 }
                 outputStringList.Add(teamString);
             }
             return outputStringList;
         }
-        
 
         public static List<Match> ConvertToMatchesAndMatchEntries(this List<string> matchLines, List<string> matchEntryLines, out List<MatchEntry> allMatchEntriesList)
         {
-            List<Match> allMatchesList = new List<Match>();
-            allMatchEntriesList = new List<MatchEntry>();
-            
-            List<Team> allTeamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
-
             //populate all match entries with fake parent matches (only contains the ids to the parent match)
+            allMatchEntriesList = ConvertToMatchEntries(matchEntryLines);
+
+            // populate all the matches
+            List<Match> allMatchesList = ConvertToMatches(matchLines, allMatchEntriesList);
+
+            //replace all the fake parent matches with real ones
+            Match parentMatch = new Match();
+            foreach (MatchEntry mEntry in allMatchEntriesList)
+            {
+                if (mEntry.ParentMatch != null)
+                {
+                    parentMatch = allMatchesList.Where(x => x.Id == mEntry.ParentMatch.Id).First();
+                    mEntry.ParentMatch = parentMatch;
+
+                }
+            }
+
+            return allMatchesList;
+        }
+        /// <summary>
+        /// populate all match entries with fake parent matches (only contains the ids to the parent match)
+        /// </summary>
+        /// <param name="matchEntryLines"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        private static List<MatchEntry> ConvertToMatchEntries (List<string> matchEntryLines)
+        {
+            List<Team> allTeamsList = GlobalConfig.TeamsFileName.LoadFile().ConvertToTeams();
+            List<MatchEntry> allMatchEntriesList = new List<MatchEntry>();
+
             foreach (string matchEntryLine in matchEntryLines)
             {
                 string[] cols = matchEntryLine.Split(',');
@@ -191,14 +227,18 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 }
                 allMatchEntriesList.Add(mEntry);
             }
+            return allMatchEntriesList;
+        }
+        private static List<Match> ConvertToMatches(List<string> matchLines, List<MatchEntry> allMatchEntriesList)
+        {
+            List<Match> allMatchesList = new List<Match>();
 
-            // populate all the matches
             foreach (string line in matchLines)
             {
                 string[] cols = line.Split(',');
                 Match m = new Match();
 
-                m.Id = Convert.ToInt32(cols[0]); 
+                m.Id = Convert.ToInt32(cols[0]);
                 m.Entries = new List<MatchEntry>();
 
                 if (cols[3] != "")
@@ -220,21 +260,9 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                 m.Round = Convert.ToInt32(cols[2]);
                 allMatchesList.Add(m);
             }
-
-            //replace all the fake parent matches with real ones
-            Match parentMatch = new Match();
-            foreach (MatchEntry mEntry in allMatchEntriesList)
-            {
-                if (mEntry.ParentMatch != null)
-                {
-                    parentMatch = allMatchesList.Where(x => x.Id == mEntry.ParentMatch.Id).First();
-                    mEntry.ParentMatch = parentMatch;
-
-                }
-            }
-
             return allMatchesList;
         }
+
         private static List<string> ConvertMatchEntriesToString(this List<MatchEntry> matchEntriesList)
         {
             //id,competing team, score, parent match
@@ -295,8 +323,8 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputStringList;
         }
 
-        
-        public static List<string> UpdateMatchesAndMatchEntries (this Match currMatch, out List<string> matchEntriesStringList)
+
+        public static List<string> UpdateMatchesAndMatchEntries(this Match currMatch, out List<string> matchEntriesStringList)
         {
             //reading all matches and match entries from text file
             List<string> matchesStringList = GlobalConfig.MatchesFileName.LoadFile();
@@ -307,22 +335,27 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             List<Match> allmatchesList = matchesStringList.ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
 
             //update the model list
-            
-            Match oldmatch = allmatchesList.Where(x => x.Id == currMatch.Id).First();
+            ReplaceOldMatchWithNew(currMatch, allmatchesList, allmatchEntriesList);
+
+            // convert back the list to strings
+            matchEntriesStringList = allmatchEntriesList.ConvertMatchEntriesToString();
+            matchesStringList = allmatchesList.ConvertMatchesToString();
+            return matchesStringList;
+        }
+
+        private static void ReplaceOldMatchWithNew(Match newMatch, List<Match> allmatchesList, List<MatchEntry> allmatchEntriesList)
+        {
+            Match oldmatch = allmatchesList.Where(x => x.Id == newMatch.Id).First();
             allmatchesList.Remove(oldmatch);
-            allmatchesList.Add(currMatch);
+            allmatchesList.Add(newMatch);
 
             MatchEntry oldMatchEntry;
-            foreach (MatchEntry mEntry in currMatch.Entries)
+            foreach (MatchEntry mEntry in newMatch.Entries)
             {
                 oldMatchEntry = allmatchEntriesList.Where(x => x.Id == mEntry.Id).First();
                 allmatchEntriesList.Remove(oldMatchEntry);
                 allmatchEntriesList.Add(mEntry);
             }
-            // convert back the list to strings
-            matchEntriesStringList = allmatchEntriesList.ConvertMatchEntriesToString();
-            matchesStringList = allmatchesList.ConvertMatchesToString();
-            return matchesStringList;
         }
 
         public static List<Tournament> ConvertToTournamentsList(this List<string> lines)
@@ -345,7 +378,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
 
         public static Tournament CollectTournamentInfo(this List<string> lines, Tournament selectedTournament)
         {
-            
+
             List<MatchEntry> allmatchEntriesList;
             List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
             List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
@@ -448,7 +481,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         }
 
 
-        private static string ConvertTeamsListToIdString (this List<Team> teamList)
+        private static string ConvertTeamsListToIdString(this List<Team> teamList)
         {
             string output = "";
             foreach (Team t in teamList)
@@ -479,24 +512,10 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             string output = "";
 
             // find last Ids for match entires and matches--------------------------------------
-            List<MatchEntry> allmatchEntriesList;
-            List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
-            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
+            int[] lastIds = FindLastMatchAndMatchEntryIds();
+            int lastMatchtId = lastIds[0];
+            int lastMatchEntrytId = lastIds[1];
 
-
-            int lastMatchEntrytId = 0;
-            if (allmatchEntriesList.Count != 0)
-            {
-                //lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
-                lastMatchEntrytId = allmatchEntriesList.OrderByDescending(x => x.Id).First().Id;
-            }
-
-            int lastMatchtId = 0;
-            if (allmatchesList.Count != 0)
-            {
-                //lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
-                lastMatchtId = allmatchesList.OrderByDescending(x => x.Id).First().Id;
-            }
             //----------------------------------------------------------------------------------
 
             foreach (List<Match> round in roundsList)
@@ -527,6 +546,31 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return output;
         }
 
-        // TODO 3 maybe implement lookup team by id
+        /// <summary>
+        /// Find the last Ids for matches and match entries in the database
+        /// </summary>
+        /// <returns>[last Match Id,last Match Entry Id]</returns>
+        private static int[] FindLastMatchAndMatchEntryIds()
+        {
+            int[] output = {0,0};
+            List<MatchEntry> allmatchEntriesList;
+            List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
+            List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
+
+            if (allmatchesList.Count != 0)
+            {
+                //lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
+                output[0] = allmatchesList.OrderByDescending(x => x.Id).First().Id;
+            }
+
+            if (allmatchEntriesList.Count != 0)
+            {
+                //lasTtId = tournamentsList[tournamentsList.Count - 1].Id;
+                output[1] = allmatchEntriesList.OrderByDescending(x => x.Id).First().Id;
+            }
+
+            return output;
+        }
+
     }
 }
