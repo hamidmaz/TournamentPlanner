@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\PostgreSQLConnector.cs" />
     <Compile Include="DataAccess\TextFileProcessor.cs" />
+    <Compile Include="EmailLogic.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />

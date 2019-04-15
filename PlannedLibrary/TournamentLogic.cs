@@ -1,6 +1,7 @@
 ﻿using PlannedLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -159,6 +160,56 @@ namespace PlannedLibrary
                 }
             }
 
+        }
+
+        public static void AlertAllUsersOfRound(Tournament tournament, int currentRoundIdx)
+        {
+            foreach (Match m in tournament.Rounds[currentRoundIdx])
+            {
+                foreach (MatchEntry mEntry in m.Entries)
+                {
+                    foreach (Player p in mEntry.TeamCompeting.TeamMembers)
+                    {
+                        p.AlertPlayer(m, m.Entries.Where(x => x.Id != mEntry.Id).FirstOrDefault());
+                    }
+                }
+            }
+        }
+
+        private static void AlertPlayer(this Player p, Match match, MatchEntry competetor)
+        {
+            if (p.EmailAddress.Length == 0)
+            {
+                return;
+            }
+            // TODO continue from here
+            
+            string toAddress = p.EmailAddress;
+           
+            string subject = "";
+            StringBuilder body = new StringBuilder();
+
+            if (competetor.TeamCompeting != null)
+            {
+                subject = $"New match with {competetor.TeamCompeting.TeamName}";
+                body.AppendLine("<h1> You have a new match</h1>");
+                body.Append("<Strong> Competetor: </Strong>");
+                body.Append(competetor.TeamCompeting.TeamName);
+                body.AppendLine();
+                body.AppendLine();
+                body.AppendLine("Have a great time!");
+                body.AppendLine("~Tournament Planner");
+            }
+            else
+            {
+                subject = $"Bye week this round!";
+                body.AppendLine("Enjoy your round off!");
+                body.AppendLine("~Tournament Planner");
+            }
+
+            
+
+            EmailLogic.SendEmail(toAddress, subject, body.ToString());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace PlannedLibrary.Models
+﻿using System;
+
+namespace PlannedLibrary.Models
 {
     public class Player
     {

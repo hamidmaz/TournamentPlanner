@@ -54,5 +54,11 @@ namespace PlannedLibrary
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
+
+        public static string AppKeyLookUp (string key)
+        {
+
+            return ConfigurationManager.AppSettings[key];
+        }
     }
 }

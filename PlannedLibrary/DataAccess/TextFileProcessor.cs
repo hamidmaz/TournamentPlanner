@@ -18,7 +18,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
         //string type which is only available in this namespace
         public static string FullFilePath (this string fileName)
         {
-            return $"{ConfigurationManager.AppSettings["filePath"]}\\{fileName}";
+            return $"{GlobalConfig.AppKeyLookUp("filePath")}\\{fileName}";
         }
 
 
