@@ -32,9 +32,9 @@ namespace PlannerUI
             // if you do not set the datasource of a comboBox to null
             //before the main values, it will not be updated every time
             // you change it and will only work the first time! Do not know why...
-            selectTeamComboBox.DataSource = null;
-            selectTeamComboBox.DataSource = availableTeams;
-            selectTeamComboBox.DisplayMember = "TeamName";
+            selectTeamListBox.DataSource = null;
+            selectTeamListBox.DataSource = availableTeams;
+            selectTeamListBox.DisplayMember = "TeamName";
 
             tournamentTeamsListBox.DataSource = null;
             tournamentTeamsListBox.DataSource = selectedTeams;
@@ -68,27 +68,34 @@ namespace PlannerUI
 
         private void addTeamButton_Click(object sender, EventArgs e)
         {
-            Team selectedT = selectTeamComboBox.SelectedItem as Team;
+            ListBox.SelectedObjectCollection selectedT = selectTeamListBox.SelectedItems;
 
             // check to make sure sth is selected and the obj is not null
             if (selectedT != null)
             {
-                selectedTeams.Add(selectedT);
-                availableTeams.Remove(selectedT);
+                foreach (Team t in selectedT)
+                {
+                    selectedTeams.Add(t);
+                    availableTeams.Remove(t);
+                }
                 WireUpLists();
             }
         }
         private void removeSelectedTeamsButton_Click(object sender, EventArgs e)
         {
-            Team selectedT = tournamentTeamsListBox.SelectedItem as Team;
+            ListBox.SelectedObjectCollection selectedT = tournamentTeamsListBox.SelectedItems;
 
             // check to make sure sth is selected and the obj is not null
             if (selectedT != null)
             {
-                selectedTeams.Remove(selectedT);
-                availableTeams.Add(selectedT);
+                foreach (Team t in selectedT)
+                {
+                    selectedTeams.Remove(t);
+                    availableTeams.Add(t);
+                }
                 WireUpLists();
             }
+            
         }
 
 
