@@ -3,6 +3,7 @@ using Npgsql;
 using PlannedLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,8 @@ namespace PlannedLibrary.DataAccess
 {
     public class PostgreSQLConnector: IDataConnection
     {
-        // TODO 3 put this in app.config file, search how to avoid writing user and pass
-        // TODO 3 synchronizeing the text and database saves?!
-        private static string CnnString = "Host=localhost;Username=postgres;Password=hamidma1367;Database=Tournaments";
+        
+        string CnnString = GlobalConfig.CnnString("TournamentsPostgreSQL");
 
         /// <summary>
         /// Save the new prize to the database and pass it with its unique identifier

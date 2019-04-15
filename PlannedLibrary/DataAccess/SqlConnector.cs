@@ -24,7 +24,7 @@ namespace PlannedLibrary.DataAccess
             //using this using block! avoid any memory link since
             // it close the connection at the end and do not keep 
             // it if eg. an exception happens
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("TournamentsSQL")))
             {
                 var p = new DynamicParameters();
                 p.Add("@PlaceNumber", model.PlaceNumber);

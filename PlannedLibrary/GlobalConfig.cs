@@ -53,6 +53,7 @@ namespace PlannedLibrary
         public static string CnnString(string name)
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+
         }
 
         public static string AppKeyLookUp (string key)
