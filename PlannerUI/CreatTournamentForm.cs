@@ -144,6 +144,7 @@ namespace PlannerUI
 
                 GlobalConfig.Connection.CreateTournament(model);
 
+                TournamentLogic.AlertAllUsersOfNewRound(model, 0);
                 CallingForm.TournamentComplete(model);
                 
                 //InitializeFieldsValue();

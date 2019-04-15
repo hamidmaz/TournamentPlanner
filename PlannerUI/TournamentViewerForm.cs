@@ -48,6 +48,7 @@ namespace PlannerUI
                         
                         MessageBox.Show("Round finished!");
                         activeRoundIndex++;
+                        TournamentLogic.AlertAllUsersOfNewRound(tournament,activeRoundIndex);
                         WireUpMatchList(activeRoundIndex);
                         DisplayMatch();
                     }

@@ -107,7 +107,6 @@ namespace PlannedLibrary
             return teams.OrderBy(x => Guid.NewGuid()).ToList();
         }
 
-
         public static List<Match> FindUnplayedMatches(List<Match> round)
         {
             List<Match> roundUnplayed = new List<Match>();
@@ -120,7 +119,6 @@ namespace PlannedLibrary
             }
             return roundUnplayed;
         }
-
 
         public static int FindActiveRound(List<List<Match>> tournamentRounds, out bool tournamentFinished)
         {
@@ -162,7 +160,7 @@ namespace PlannedLibrary
 
         }
 
-        public static void AlertAllUsersOfRound(Tournament tournament, int currentRoundIdx)
+        public static void AlertAllUsersOfNewRound(Tournament tournament, int currentRoundIdx)
         {
             foreach (Match m in tournament.Rounds[currentRoundIdx])
             {
@@ -170,19 +168,18 @@ namespace PlannedLibrary
                 {
                     foreach (Player p in mEntry.TeamCompeting.TeamMembers)
                     {
-                        p.AlertPlayer(m, m.Entries.Where(x => x.Id != mEntry.Id).FirstOrDefault());
+                        p.AlertPlayerofNewRound(m, m.Entries.Where(x => x.Id != mEntry.Id).FirstOrDefault());
                     }
                 }
             }
         }
 
-        private static void AlertPlayer(this Player p, Match match, MatchEntry competetor)
+        private static void AlertPlayerofNewRound(this Player p, Match match, MatchEntry competetor)
         {
             if (p.EmailAddress.Length == 0)
             {
                 return;
             }
-            // TODO continue from here
             
             string toAddress = p.EmailAddress;
            
@@ -210,6 +207,98 @@ namespace PlannedLibrary
             
 
             EmailLogic.SendEmail(toAddress, subject, body.ToString());
+        }
+
+        public static void TournamentFinishMessageToAll(Tournament tournament)
+        {
+            foreach (Match m in tournament.Rounds[0])
+            {
+                foreach (MatchEntry mEntry in m.Entries)
+                {
+                    foreach (Player p in mEntry.TeamCompeting.TeamMembers)
+                    {
+                        p.TournamentFinishMessageToPlayer(tournament);
+                    }
+                }
+            }
+        }
+
+        private static void TournamentFinishMessageToPlayer(this Player p, Tournament tournament)
+        {
+            if (p.EmailAddress.Length == 0)
+            {
+                return;
+            }
+
+            Team winnerTeam = tournament.Rounds.Last()[0].Winner;
+
+            string toAddress = p.EmailAddress;
+
+            string subject = "";
+            subject = $"Tournament finished! The champion is {winnerTeam.TeamName}";
+            string body = MakeFinishMessageBody(tournament);
+
+            EmailLogic.SendEmail(toAddress, subject, body);
+        }
+
+        private static string MakeFinishMessageBody(Tournament tournament)
+        {
+            Team winnerTeam = tournament.Rounds.Last()[0].Winner;
+            StringBuilder body = new StringBuilder();
+                        
+            string prizeMessage = tournament.MakePrizeMessage();
+                        
+            body.AppendLine("<h1> The tournament is finally finished!</h1>");
+            body.Append("<Strong> Champion: </Strong>");
+            body.Append(winnerTeam.TeamName);
+            body.AppendLine();
+            body.AppendLine();
+            body.Append(prizeMessage);
+            body.AppendLine();
+            body.AppendLine();
+            body.AppendLine("Have a great time!");
+            body.AppendLine("~Tournament Planner");
+
+            return body.ToString();
+        }
+
+        private static string MakePrizeMessage (this Tournament tournament)
+        {
+            tournament.PrizesPercentToAmount();
+
+            StringBuilder message = new StringBuilder();
+            message.AppendLine($"<Strong>List of Prizes<Strong>");
+
+            foreach (Prize p in tournament.Prizes)
+            {
+                message.AppendLine($"{p.PlaceName} for place {p.PlaceNumber}:/t{p.Amount}");
+                message.AppendLine("");
+            }
+            return message.ToString();
+        }
+
+        private static void PrizesPercentToAmount (this Tournament tournament)
+        {
+            decimal totalMoney = TournamentTotalMoney(tournament);
+
+            foreach (Prize p in tournament.Prizes)
+            {
+                if (p.Amount == 0 || p.Percentage != 0)
+                {
+                    p.Amount = (decimal)p.Percentage / 100 * totalMoney;
+                }
+            }
+        }
+
+        private static decimal TournamentTotalMoney (Tournament tournament)
+        {
+            int NumberOfPlayers = 0;
+            foreach (Team t in tournament.Teams)
+            {
+                NumberOfPlayers += t.TeamMembers.Count();
+            }
+
+            return tournament.EntryFee * NumberOfPlayers;
         }
     }
 }
