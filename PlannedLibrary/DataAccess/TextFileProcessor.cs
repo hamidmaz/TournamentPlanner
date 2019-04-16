@@ -376,41 +376,50 @@ namespace PlannedLibrary.DataAccess.TextProcessors
             return outputList;
         }
 
-        public static Tournament CollectTournamentInfo(this List<string> lines, Tournament selectedTournament)
+        public static Tournament CollectTournamentInfo(this Tournament selectedTournament)
         {
-
+            List<string> allTournamentStringList = GlobalConfig.TournamentsFileName.LoadFile();
             List<MatchEntry> allmatchEntriesList;
             List<string> matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
             List<Match> allmatchesList = GlobalConfig.MatchesFileName.LoadFile().ConvertToMatchesAndMatchEntries(matchEntriesStringList, out allmatchEntriesList);
 
             List<Tournament> outputList = new List<Tournament>();
 
-            foreach (string line in lines)
+            foreach (string line in allTournamentStringList)
             {
                 string[] cols = line.Split(',');
                 if (selectedTournament.Id == Convert.ToInt32(cols[0]))
                 {
+                    selectedTournament.Teams = ConvertIdStringToTeamList(cols[3]);
+                    selectedTournament.Prizes = ConvertIdStringToPrizeList(cols[4]);
                     selectedTournament.Rounds = ConvertIdStringToRoundList(cols[5], allmatchesList, allmatchEntriesList);
+                    
                     break;
                 }
             }
             return selectedTournament;
         }
 
-        public static List<string> ConvertTournamentsToString(this List<Tournament> tournamentsList, out List<string> matchesStringList, out List<string> matchEntriesStringList)
+        /// <summary>
+        /// Add the new tournament, matches, and match entries to the end of the previous files
+        /// </summary>
+        /// <param name="newTournaments"></param>
+        /// <param name="matchesStringList"></param>
+        /// <param name="matchEntriesStringList"></param>
+        /// <returns></returns>
+        public static List<string> ConvertTournamentsToString(this Tournament newTournaments, out List<string> matchesStringList, out List<string> matchEntriesStringList)
         {
             //id,name,fee,team1|team2|...,prize1|prize2|...,match1 of round1*match2 of round1*...|match1 of round2*match2 of round2*...|...
-            List<string> outputStringList = new List<string>();
-            matchesStringList = new List<string>();
-            matchEntriesStringList = new List<string>();
+            List<string> outputStringList = GlobalConfig.TournamentsFileName.LoadFile();
+            matchesStringList = GlobalConfig.MatchesFileName.LoadFile();
+            matchEntriesStringList = GlobalConfig.MatchEntriesFileName.LoadFile();
 
-            foreach (Tournament tour in tournamentsList)
-            {
-                string tournamentString = $"{tour.Id},{tour.TournamentName},{tour.EntryFee},{tour.Teams.ConvertTeamsListToIdString()},{tour.Prizes.ConvertPrizesListToIdString()},{tour.Rounds.ConvertRoundsListToIdString()}";
+            
+            string tournamentString = $"{newTournaments.Id},{newTournaments.TournamentName},{newTournaments.EntryFee},{newTournaments.Teams.ConvertTeamsListToIdString()},{newTournaments.Prizes.ConvertPrizesListToIdString()},{newTournaments.Rounds.ConvertRoundsListToIdString()}";
 
-                outputStringList.Add(tournamentString);
+            outputStringList.Add(tournamentString);
 
-                foreach (List<Match> round in tour.Rounds)
+            foreach (List<Match> round in newTournaments.Rounds)
                 {
                     matchesStringList.AddRange(round.ConvertMatchesToString());
                     foreach (Match m in round)
@@ -418,7 +427,7 @@ namespace PlannedLibrary.DataAccess.TextProcessors
                         matchEntriesStringList.AddRange(m.Entries.ConvertMatchEntriesToString());
                     }
                 }
-            }
+            
             return outputStringList;
         }
 

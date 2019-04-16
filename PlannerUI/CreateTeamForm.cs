@@ -112,8 +112,8 @@ namespace PlannerUI
                 CallingForm.TeamComplete(model);
                 this.Close();
 
-                InitializeFieldsValue();
-                WireUpLists();
+                //InitializeFieldsValue();
+                //WireUpLists();
             }
             else
             {

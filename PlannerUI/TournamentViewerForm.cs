@@ -55,6 +55,7 @@ namespace PlannerUI
                 {
                     tournamentFinished = true;
                     MessageBox.Show("Tournament finished!");
+                    TournamentLogic.TournamentFinishMessageToAll(tournament);
                     DisplayMatch();
                 }
                 

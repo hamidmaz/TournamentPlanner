@@ -123,7 +123,7 @@ namespace PlannedLibrary.DataAccess
             tournamentsList.Add(model);
 
             //save all three files
-            tournamentsList.ConvertTournamentsToString(out List<string> matchesStringList, out List<string> matchEntriesStringList).SaveFile(GlobalConfig.TournamentsFileName);
+            tournamentsList.Last().ConvertTournamentsToString(out List<string> matchesStringList, out List<string> matchEntriesStringList).SaveFile(GlobalConfig.TournamentsFileName);
             matchesStringList.SaveFile(GlobalConfig.MatchesFileName);
             matchEntriesStringList.SaveFile(GlobalConfig.MatchEntriesFileName);
         }
@@ -136,7 +136,7 @@ namespace PlannedLibrary.DataAccess
 
         public Tournament GetTournamentInfo(Tournament tournament)
         {
-            tournament = GlobalConfig.TournamentsFileName.LoadFile().CollectTournamentInfo(tournament);
+            tournament.CollectTournamentInfo();
             return tournament;
         }
 

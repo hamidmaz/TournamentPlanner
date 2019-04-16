@@ -186,7 +186,7 @@ namespace PlannedLibrary
             string subject = "";
             StringBuilder body = new StringBuilder();
 
-            if (competetor.TeamCompeting != null)
+            if (competetor != null)
             {
                 subject = $"New match with {competetor.TeamCompeting.TeamName}";
                 body.AppendLine("<h1> You have a new match</h1>");
@@ -200,6 +200,7 @@ namespace PlannedLibrary
             else
             {
                 subject = $"Bye week this round!";
+                body.AppendLine("<h1> No match this week!</h1>");
                 body.AppendLine("Enjoy your round off!");
                 body.AppendLine("~Tournament Planner");
             }
@@ -275,7 +276,7 @@ namespace PlannedLibrary
 
             foreach (Prize p in tournament.Prizes)
             {
-                message.AppendLine($"{p.PlaceName} for place {p.PlaceNumber}:/t{p.Amount}");
+                message.AppendLine($"{p.PlaceName} for place {p.PlaceNumber}:   {p.Amount}  ");
                 message.AppendLine("");
             }
             return message.ToString();

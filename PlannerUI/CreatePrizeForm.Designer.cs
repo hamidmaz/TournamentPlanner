@@ -50,7 +50,7 @@
             this.createPrizeButton.Margin = new System.Windows.Forms.Padding(4);
             this.createPrizeButton.Name = "createPrizeButton";
             this.createPrizeButton.Size = new System.Drawing.Size(332, 55);
-            this.createPrizeButton.TabIndex = 25;
+            this.createPrizeButton.TabIndex = 31;
             this.createPrizeButton.Text = "Create prize";
             this.createPrizeButton.UseVisualStyleBackColor = true;
             this.createPrizeButton.Click += new System.EventHandler(this.createPrizeButton_Click);
@@ -93,7 +93,7 @@
             this.placeNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.placeNameTextBox.Name = "placeNameTextBox";
             this.placeNameTextBox.Size = new System.Drawing.Size(160, 38);
-            this.placeNameTextBox.TabIndex = 27;
+            this.placeNameTextBox.TabIndex = 25;
             // 
             // placeNameLabel
             // 
@@ -113,7 +113,7 @@
             this.prizePercentageTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.prizePercentageTextBox.Name = "prizePercentageTextBox";
             this.prizePercentageTextBox.Size = new System.Drawing.Size(160, 38);
-            this.prizePercentageTextBox.TabIndex = 31;
+            this.prizePercentageTextBox.TabIndex = 29;
             this.prizePercentageTextBox.Text = "0";
             // 
             // prizePercentageLabel
@@ -134,7 +134,7 @@
             this.prizeAmountTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.prizeAmountTextBox.Name = "prizeAmountTextBox";
             this.prizeAmountTextBox.Size = new System.Drawing.Size(160, 38);
-            this.prizeAmountTextBox.TabIndex = 29;
+            this.prizeAmountTextBox.TabIndex = 27;
             this.prizeAmountTextBox.Text = "0";
             // 
             // prizeAmountLabel
