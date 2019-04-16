@@ -23,8 +23,6 @@ namespace PlannerUI
 
             Application.Run(new TournamentDashboardForm());
 
-            //TODO email issue
-            //TODO match names
         }
     }
 }
