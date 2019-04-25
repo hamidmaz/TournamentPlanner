@@ -1,0 +1,25 @@
+CREATE ROLE tour_responsible_user LOGIN PASSWORD 'YouShallNotPass';
+
+CREATE ROLE tour_responsible_group;
+GRANT tour_responsible_group TO tour_responsible_user;
+
+GRANT CONNECT ON DATABASE "Tournaments" TO tour_responsible_group;
+GRANT USAGE ON SCHEMA public TO tour_responsible_group;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA "public" TO tour_responsible_group;
+
+REVOKE ALL ON ALL TABLES IN SCHEMA "public" FROM public;
+
+CREATE ROLE mydaemon;
+GRANT CONNECT ON DATABASE "Tournaments" TO mydaemon;
+GRANT USAGE ON SCHEMA public TO mydaemon;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA "public" TO mydaemon;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA "public" GRANT SELECT ON TABLES    TO mydaemon;
+ALTER DEFAULT PRIVILEGES IN SCHEMA "public" GRANT USAGE  ON SEQUENCES TO mydaemon;
+GRANT SELECT ON ALL TABLES    IN SCHEMA public TO mydaemon;
+GRANT USAGE  ON ALL SEQUENCES IN SCHEMA public TO mydaemon;
+
+ALTER FUNCTION "spMatchEntries_GetByMatch"("matchId" integer) OWNER TO mydaemon;
+REVOKE EXECUTE ON FUNCTION "spMatchEntries_GetByMatch"("matchId" integer) FROM public;
+GRANT  EXECUTE ON FUNCTION "spMatchEntries_GetByMatch"("matchId" integer) TO mydaemon;
+GRANT  EXECUTE ON FUNCTION "spMatchEntries_GetByMatch"("matchId" integer) TO tour_responsible_group;
