@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.2
 
--- Started on 2019-04-24 09:22:39
+-- Started on 2019-04-25 15:48:36
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -38,12 +38,12 @@ CREATE TABLE public."MatchEntries" (
 ALTER TABLE public."MatchEntries" OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1255 OID 16986)
--- Name: spMatchEntries_GetByMatch(integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 244 (class 1255 OID 16986)
+-- Name: spMatchEntries_GetByMatch(integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatchEntries_GetByMatch"("matchId" integer) RETURNS SETOF public."MatchEntries"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY
 SELECT *
@@ -53,30 +53,30 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spMatchEntries_GetByMatch"("matchId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatchEntries_GetByMatch"("matchId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 237 (class 1255 OID 16967)
--- Name: spMatchEntry_Insert(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 240 (class 1255 OID 16967)
+-- Name: spMatchEntry_Insert(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "MatchEntries" ("MatchId","ParentMatchId","TeamCompetingId")
 VALUES ("MatchId","ParentMatchId","TeamCompetingId")
 RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 243 (class 1255 OID 16991)
--- Name: spMatchEntry_Update(bigint, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 245 (class 1255 OID 16991)
+-- Name: spMatchEntry_Update(bigint, integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer DEFAULT NULL::integer) RETURNS void
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 UPDATE "MatchEntries"
 SET "Score" = "score", "TeamCompetingId" = "teamCompetingId"
@@ -84,29 +84,29 @@ WHERE "id" = "Id";
 END;$$;
 
 
-ALTER FUNCTION public."spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer) OWNER TO mydaemon;
 
 --
--- TOC entry 242 (class 1255 OID 16987)
--- Name: spMatch_Insert(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 241 (class 1255 OID 16987)
+-- Name: spMatch_Insert(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer DEFAULT NULL::integer) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "Matches" ("TournamentId", "WinnerId","MatchRound")
 VALUES ("TournamentId", "WinnerId","MatchRound")
 RETURNING id;$$;
 
 
-ALTER FUNCTION public."spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 244 (class 1255 OID 16989)
--- Name: spMatch_Update(bigint, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 242 (class 1255 OID 16989)
+-- Name: spMatch_Update(bigint, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatch_Update"("Id" bigint, "winnerId" integer DEFAULT NULL::integer) RETURNS void
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 UPDATE "Matches"
 SET "WinnerId" = "winnerId"
@@ -114,7 +114,7 @@ WHERE "id" = "Id";
 END;$$;
 
 
-ALTER FUNCTION public."spMatch_Update"("Id" bigint, "winnerId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatch_Update"("Id" bigint, "winnerId" integer) OWNER TO mydaemon;
 
 --
 -- TOC entry 211 (class 1259 OID 16854)
@@ -132,12 +132,12 @@ CREATE TABLE public."Matches" (
 ALTER TABLE public."Matches" OWNER TO postgres;
 
 --
--- TOC entry 245 (class 1255 OID 16984)
--- Name: spMatches_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 243 (class 1255 OID 16984)
+-- Name: spMatches_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spMatches_GetByTournament"("tournamentId" integer) RETURNS SETOF public."Matches"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY
 SELECT m.*
@@ -148,7 +148,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spMatches_GetByTournament"("tournamentId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spMatches_GetByTournament"("tournamentId" integer) OWNER TO mydaemon;
 
 --
 -- TOC entry 199 (class 1259 OID 16776)
@@ -167,12 +167,12 @@ CREATE TABLE public."People" (
 ALTER TABLE public."People" OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1255 OID 16934)
--- Name: spPeople_GetAll(); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 229 (class 1255 OID 16934)
+-- Name: spPeople_GetAll(); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPeople_GetAll"() RETURNS SETOF public."People"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY SELECT *
 FROM "People";
@@ -180,15 +180,15 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spPeople_GetAll"() OWNER TO postgres;
+ALTER FUNCTION public."spPeople_GetAll"() OWNER TO mydaemon;
 
 --
--- TOC entry 234 (class 1255 OID 16944)
--- Name: spPeople_GetByTeam(integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 232 (class 1255 OID 16944)
+-- Name: spPeople_GetByTeam(integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPeople_GetByTeam"("teamId" integer) RETURNS SETOF public."People"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY
 SELECT p.*
@@ -198,15 +198,15 @@ AND p."id" = m."PersonId";
 END;$$;
 
 
-ALTER FUNCTION public."spPeople_GetByTeam"("teamId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spPeople_GetByTeam"("teamId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 231 (class 1255 OID 16933)
--- Name: spPeople_Insert(character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 230 (class 1255 OID 16933)
+-- Name: spPeople_Insert(character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$
 INSERT INTO "People" ("FirstName","LastName","EmailAddress","CellphoneNumber")
 VALUES ("FirstName","LastName","EmailAddress","CellphoneNumber")
@@ -214,7 +214,7 @@ RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying) OWNER TO postgres;
+ALTER FUNCTION public."spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying) OWNER TO mydaemon;
 
 --
 -- TOC entry 203 (class 1259 OID 16792)
@@ -233,12 +233,12 @@ CREATE TABLE public."Prizes" (
 ALTER TABLE public."Prizes" OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1255 OID 16908)
--- Name: spPrizes_GetAll(); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 233 (class 1255 OID 16908)
+-- Name: spPrizes_GetAll(); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPrizes_GetAll"() RETURNS SETOF public."Prizes"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$
 BEGIN
 RETURN QUERY SELECT *
@@ -247,15 +247,15 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spPrizes_GetAll"() OWNER TO postgres;
+ALTER FUNCTION public."spPrizes_GetAll"() OWNER TO mydaemon;
 
 --
--- TOC entry 239 (class 1255 OID 16982)
--- Name: spPrizes_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 234 (class 1255 OID 16982)
+-- Name: spPrizes_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPrizes_GetByTournament"("tournamentId" integer) RETURNS SETOF public."Prizes"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY
 SELECT p.*
@@ -266,15 +266,15 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spPrizes_GetByTournament"("tournamentId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spPrizes_GetByTournament"("tournamentId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 229 (class 1255 OID 16925)
--- Name: spPrizes_Insert(integer, character varying, numeric, double precision); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 227 (class 1255 OID 16925)
+-- Name: spPrizes_Insert(integer, character varying, numeric, double precision); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$
 INSERT INTO "Prizes" ("PlaceNumber","PlaceName","PrizeAmount","PrizePercentage")
 VALUES ("PlaceNumber","PlaceName","PrizeAmount","PrizePercentage")
@@ -282,30 +282,30 @@ RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision) OWNER TO postgres;
+ALTER FUNCTION public."spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision) OWNER TO mydaemon;
 
 --
--- TOC entry 233 (class 1255 OID 16940)
--- Name: spTeamMembers_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 231 (class 1255 OID 16940)
+-- Name: spTeamMembers_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTeamMembers_Insert"("TeamId" integer, "PersonId" integer) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "TeamMembers" ("TeamId","PersonId")
 VALUES ("TeamId","PersonId")
 RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spTeamMembers_Insert"("TeamId" integer, "PersonId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spTeamMembers_Insert"("TeamId" integer, "PersonId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 215 (class 1255 OID 16935)
--- Name: spTeam_Insert(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 235 (class 1255 OID 16935)
+-- Name: spTeam_Insert(character varying); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTeam_Insert"("TeamName" character varying) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$
 INSERT INTO "Teams" ("TeamName")
 VALUES ("TeamName")
@@ -313,7 +313,7 @@ RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spTeam_Insert"("TeamName" character varying) OWNER TO postgres;
+ALTER FUNCTION public."spTeam_Insert"("TeamName" character varying) OWNER TO mydaemon;
 
 --
 -- TOC entry 197 (class 1259 OID 16768)
@@ -329,12 +329,12 @@ CREATE TABLE public."Teams" (
 ALTER TABLE public."Teams" OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1255 OID 16941)
--- Name: spTeams_GetAll(); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 214 (class 1255 OID 16941)
+-- Name: spTeams_GetAll(); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTeams_GetAll"() RETURNS SETOF public."Teams"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY SELECT *
 FROM "Teams";
@@ -342,15 +342,15 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spTeams_GetAll"() OWNER TO postgres;
+ALTER FUNCTION public."spTeams_GetAll"() OWNER TO mydaemon;
 
 --
--- TOC entry 240 (class 1255 OID 16983)
--- Name: spTeams_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 236 (class 1255 OID 16983)
+-- Name: spTeams_GetByTournament(integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTeams_GetByTournament"("tournamentId" integer) RETURNS SETOF public."Teams"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$BEGIN
 RETURN QUERY
 SELECT p.*
@@ -361,51 +361,51 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spTeams_GetByTournament"("tournamentId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spTeams_GetByTournament"("tournamentId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 236 (class 1255 OID 16958)
--- Name: spTournamentEntry_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 237 (class 1255 OID 16958)
+-- Name: spTournamentEntry_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "TournamentEntries" ("TournamentId","TeamId")
 VALUES ("TournamentId","TeamId")
 RETURNING id;$$;
 
 
-ALTER FUNCTION public."spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer) OWNER TO mydaemon;
 
 --
 -- TOC entry 238 (class 1255 OID 16957)
--- Name: spTournamentPrizes_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: spTournamentPrizes_Insert(integer, integer); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "TournamentPrizes" ("TournamentId","PrizeId")
 VALUES ("TournamentId","PrizeId")
 RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer) OWNER TO postgres;
+ALTER FUNCTION public."spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer) OWNER TO mydaemon;
 
 --
--- TOC entry 235 (class 1255 OID 16956)
--- Name: spTournament_Insert(character varying, numeric); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 239 (class 1255 OID 16956)
+-- Name: spTournament_Insert(character varying, numeric); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric) RETURNS bigint
-    LANGUAGE sql
+    LANGUAGE sql SECURITY DEFINER
     AS $$INSERT INTO "Tournaments" ("TournamentName","EntryFee")
 VALUES ("TournamentName","EntryFee")
 RETURNING id;
 $$;
 
 
-ALTER FUNCTION public."spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric) OWNER TO postgres;
+ALTER FUNCTION public."spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric) OWNER TO mydaemon;
 
 --
 -- TOC entry 201 (class 1259 OID 16784)
@@ -423,12 +423,12 @@ CREATE TABLE public."Tournaments" (
 ALTER TABLE public."Tournaments" OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1255 OID 16930)
--- Name: spTournaments_GetAll(); Type: FUNCTION; Schema: public; Owner: postgres
+-- TOC entry 228 (class 1255 OID 16930)
+-- Name: spTournaments_GetAll(); Type: FUNCTION; Schema: public; Owner: mydaemon
 --
 
 CREATE FUNCTION public."spTournaments_GetAll"() RETURNS SETOF public."Tournaments"
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql SECURITY DEFINER
     AS $$
 BEGIN
 RETURN QUERY
@@ -438,7 +438,7 @@ END;
 $$;
 
 
-ALTER FUNCTION public."spTournaments_GetAll"() OWNER TO postgres;
+ALTER FUNCTION public."spTournaments_GetAll"() OWNER TO mydaemon;
 
 --
 -- TOC entry 212 (class 1259 OID 16865)
@@ -456,7 +456,7 @@ CREATE SEQUENCE public."MatchEntry_id_seq"
 ALTER TABLE public."MatchEntry_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2920 (class 0 OID 0)
+-- TOC entry 2949 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: MatchEntry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -480,7 +480,7 @@ CREATE SEQUENCE public."Matches_id_seq"
 ALTER TABLE public."Matches_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2921 (class 0 OID 0)
+-- TOC entry 2951 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: Matches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -504,7 +504,7 @@ CREATE SEQUENCE public."People_id_seq"
 ALTER TABLE public."People_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2922 (class 0 OID 0)
+-- TOC entry 2953 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: People_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -528,7 +528,7 @@ CREATE SEQUENCE public."Prizes_id_seq"
 ALTER TABLE public."Prizes_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2923 (class 0 OID 0)
+-- TOC entry 2955 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: Prizes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -566,7 +566,7 @@ CREATE SEQUENCE public."TeamMembers_id_seq"
 ALTER TABLE public."TeamMembers_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2924 (class 0 OID 0)
+-- TOC entry 2958 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: TeamMembers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -590,7 +590,7 @@ CREATE SEQUENCE public."Teams_id_seq"
 ALTER TABLE public."Teams_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2925 (class 0 OID 0)
+-- TOC entry 2960 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: Teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -628,7 +628,7 @@ CREATE SEQUENCE public."TournamentEntry_id_seq"
 ALTER TABLE public."TournamentEntry_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2926 (class 0 OID 0)
+-- TOC entry 2963 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: TournamentEntry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -666,7 +666,7 @@ CREATE SEQUENCE public."TournamentPrizes_id_seq"
 ALTER TABLE public."TournamentPrizes_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2927 (class 0 OID 0)
+-- TOC entry 2966 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: TournamentPrizes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -690,7 +690,7 @@ CREATE SEQUENCE public."Tournaments_id_seq"
 ALTER TABLE public."Tournaments_id_seq" OWNER TO postgres;
 
 --
--- TOC entry 2928 (class 0 OID 0)
+-- TOC entry 2968 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: Tournaments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -699,7 +699,7 @@ ALTER SEQUENCE public."Tournaments_id_seq" OWNED BY public."Tournaments".id;
 
 
 --
--- TOC entry 2764 (class 2604 OID 16870)
+-- TOC entry 2766 (class 2604 OID 16870)
 -- Name: MatchEntries id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -707,7 +707,7 @@ ALTER TABLE ONLY public."MatchEntries" ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 2763 (class 2604 OID 16857)
+-- TOC entry 2765 (class 2604 OID 16857)
 -- Name: Matches id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -715,7 +715,7 @@ ALTER TABLE ONLY public."Matches" ALTER COLUMN id SET DEFAULT nextval('public."M
 
 
 --
--- TOC entry 2756 (class 2604 OID 16779)
+-- TOC entry 2758 (class 2604 OID 16779)
 -- Name: People id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -723,7 +723,7 @@ ALTER TABLE ONLY public."People" ALTER COLUMN id SET DEFAULT nextval('public."Pe
 
 
 --
--- TOC entry 2759 (class 2604 OID 16795)
+-- TOC entry 2761 (class 2604 OID 16795)
 -- Name: Prizes id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -731,7 +731,7 @@ ALTER TABLE ONLY public."Prizes" ALTER COLUMN id SET DEFAULT nextval('public."Pr
 
 
 --
--- TOC entry 2762 (class 2604 OID 16839)
+-- TOC entry 2764 (class 2604 OID 16839)
 -- Name: TeamMembers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -739,7 +739,7 @@ ALTER TABLE ONLY public."TeamMembers" ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 2755 (class 2604 OID 16771)
+-- TOC entry 2757 (class 2604 OID 16771)
 -- Name: Teams id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -747,7 +747,7 @@ ALTER TABLE ONLY public."Teams" ALTER COLUMN id SET DEFAULT nextval('public."Tea
 
 
 --
--- TOC entry 2760 (class 2604 OID 16803)
+-- TOC entry 2762 (class 2604 OID 16803)
 -- Name: TournamentEntries id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -755,7 +755,7 @@ ALTER TABLE ONLY public."TournamentEntries" ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 2761 (class 2604 OID 16821)
+-- TOC entry 2763 (class 2604 OID 16821)
 -- Name: TournamentPrizes id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -763,7 +763,7 @@ ALTER TABLE ONLY public."TournamentPrizes" ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 2757 (class 2604 OID 16787)
+-- TOC entry 2759 (class 2604 OID 16787)
 -- Name: Tournaments id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -771,7 +771,7 @@ ALTER TABLE ONLY public."Tournaments" ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 2782 (class 2606 OID 16872)
+-- TOC entry 2784 (class 2606 OID 16872)
 -- Name: MatchEntries MatchEntry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -780,7 +780,7 @@ ALTER TABLE ONLY public."MatchEntries"
 
 
 --
--- TOC entry 2780 (class 2606 OID 16859)
+-- TOC entry 2782 (class 2606 OID 16859)
 -- Name: Matches Matches_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -789,7 +789,7 @@ ALTER TABLE ONLY public."Matches"
 
 
 --
--- TOC entry 2768 (class 2606 OID 16781)
+-- TOC entry 2770 (class 2606 OID 16781)
 -- Name: People People_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -798,7 +798,7 @@ ALTER TABLE ONLY public."People"
 
 
 --
--- TOC entry 2772 (class 2606 OID 16797)
+-- TOC entry 2774 (class 2606 OID 16797)
 -- Name: Prizes Prizes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -807,7 +807,7 @@ ALTER TABLE ONLY public."Prizes"
 
 
 --
--- TOC entry 2778 (class 2606 OID 16841)
+-- TOC entry 2780 (class 2606 OID 16841)
 -- Name: TeamMembers TeamMembers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -816,7 +816,7 @@ ALTER TABLE ONLY public."TeamMembers"
 
 
 --
--- TOC entry 2766 (class 2606 OID 16773)
+-- TOC entry 2768 (class 2606 OID 16773)
 -- Name: Teams Teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -825,7 +825,7 @@ ALTER TABLE ONLY public."Teams"
 
 
 --
--- TOC entry 2774 (class 2606 OID 16805)
+-- TOC entry 2776 (class 2606 OID 16805)
 -- Name: TournamentEntries TournamentEntry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -834,7 +834,7 @@ ALTER TABLE ONLY public."TournamentEntries"
 
 
 --
--- TOC entry 2776 (class 2606 OID 16823)
+-- TOC entry 2778 (class 2606 OID 16823)
 -- Name: TournamentPrizes TournamentPrizes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -843,7 +843,7 @@ ALTER TABLE ONLY public."TournamentPrizes"
 
 
 --
--- TOC entry 2770 (class 2606 OID 16789)
+-- TOC entry 2772 (class 2606 OID 16789)
 -- Name: Tournaments Tournaments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -852,7 +852,7 @@ ALTER TABLE ONLY public."Tournaments"
 
 
 --
--- TOC entry 2791 (class 2606 OID 16873)
+-- TOC entry 2793 (class 2606 OID 16873)
 -- Name: MatchEntries MatchEntry_MatchId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -861,7 +861,7 @@ ALTER TABLE ONLY public."MatchEntries"
 
 
 --
--- TOC entry 2793 (class 2606 OID 16883)
+-- TOC entry 2795 (class 2606 OID 16883)
 -- Name: MatchEntries MatchEntry_ParentMatchId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -870,7 +870,7 @@ ALTER TABLE ONLY public."MatchEntries"
 
 
 --
--- TOC entry 2792 (class 2606 OID 16878)
+-- TOC entry 2794 (class 2606 OID 16878)
 -- Name: MatchEntries MatchEntry_TeamCompetingId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -879,7 +879,7 @@ ALTER TABLE ONLY public."MatchEntries"
 
 
 --
--- TOC entry 2789 (class 2606 OID 16969)
+-- TOC entry 2791 (class 2606 OID 16969)
 -- Name: Matches Matches_TournamentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -888,7 +888,7 @@ ALTER TABLE ONLY public."Matches"
 
 
 --
--- TOC entry 2790 (class 2606 OID 16974)
+-- TOC entry 2792 (class 2606 OID 16974)
 -- Name: Matches Matches_WinnerId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -897,7 +897,7 @@ ALTER TABLE ONLY public."Matches"
 
 
 --
--- TOC entry 2788 (class 2606 OID 16847)
+-- TOC entry 2790 (class 2606 OID 16847)
 -- Name: TeamMembers TeamMembers_PesonId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -906,7 +906,7 @@ ALTER TABLE ONLY public."TeamMembers"
 
 
 --
--- TOC entry 2787 (class 2606 OID 16842)
+-- TOC entry 2789 (class 2606 OID 16842)
 -- Name: TeamMembers TeamMembers_TeamId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -915,7 +915,7 @@ ALTER TABLE ONLY public."TeamMembers"
 
 
 --
--- TOC entry 2784 (class 2606 OID 16811)
+-- TOC entry 2786 (class 2606 OID 16811)
 -- Name: TournamentEntries TournamentEntry_TeamId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -924,7 +924,7 @@ ALTER TABLE ONLY public."TournamentEntries"
 
 
 --
--- TOC entry 2783 (class 2606 OID 16806)
+-- TOC entry 2785 (class 2606 OID 16806)
 -- Name: TournamentEntries TournamentEntry_TournamentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -933,7 +933,7 @@ ALTER TABLE ONLY public."TournamentEntries"
 
 
 --
--- TOC entry 2786 (class 2606 OID 16829)
+-- TOC entry 2788 (class 2606 OID 16829)
 -- Name: TournamentPrizes TournamentPrizes_PrizeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -942,7 +942,7 @@ ALTER TABLE ONLY public."TournamentPrizes"
 
 
 --
--- TOC entry 2785 (class 2606 OID 16824)
+-- TOC entry 2787 (class 2606 OID 16824)
 -- Name: TournamentPrizes TournamentPrizes_TournamentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -950,7 +950,405 @@ ALTER TABLE ONLY public."TournamentPrizes"
     ADD CONSTRAINT "TournamentPrizes_TournamentId_fkey" FOREIGN KEY ("TournamentId") REFERENCES public."Tournaments"(id);
 
 
--- Completed on 2019-04-24 09:22:39
+--
+-- TOC entry 2922 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA public TO mydaemon;
+
+
+--
+-- TOC entry 2923 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: TABLE "MatchEntries"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."MatchEntries" TO mydaemon;
+
+
+--
+-- TOC entry 2924 (class 0 OID 0)
+-- Dependencies: 244
+-- Name: FUNCTION "spMatchEntries_GetByMatch"("matchId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatchEntries_GetByMatch"("matchId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatchEntries_GetByMatch"("matchId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2925 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: FUNCTION "spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatchEntry_Insert"("MatchId" integer, "ParentMatchId" integer, "TeamCompetingId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2926 (class 0 OID 0)
+-- Dependencies: 245
+-- Name: FUNCTION "spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatchEntry_Update"("Id" bigint, "teamCompetingId" integer, score integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2927 (class 0 OID 0)
+-- Dependencies: 241
+-- Name: FUNCTION "spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatch_Insert"("TournamentId" integer, "MatchRound" integer, "WinnerId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2928 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: FUNCTION "spMatch_Update"("Id" bigint, "winnerId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatch_Update"("Id" bigint, "winnerId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatch_Update"("Id" bigint, "winnerId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2929 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: TABLE "Matches"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."Matches" TO mydaemon;
+
+
+--
+-- TOC entry 2930 (class 0 OID 0)
+-- Dependencies: 243
+-- Name: FUNCTION "spMatches_GetByTournament"("tournamentId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spMatches_GetByTournament"("tournamentId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spMatches_GetByTournament"("tournamentId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2931 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: TABLE "People"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."People" TO mydaemon;
+
+
+--
+-- TOC entry 2932 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: FUNCTION "spPeople_GetAll"(); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPeople_GetAll"() FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPeople_GetAll"() TO tour_responsible_group;
+
+
+--
+-- TOC entry 2933 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: FUNCTION "spPeople_GetByTeam"("teamId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPeople_GetByTeam"("teamId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPeople_GetByTeam"("teamId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2934 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: FUNCTION "spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPeople_Insert"("FirstName" character varying, "LastName" character varying, "EmailAddress" character varying, "CellphoneNumber" character varying) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2935 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: TABLE "Prizes"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."Prizes" TO mydaemon;
+
+
+--
+-- TOC entry 2936 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: FUNCTION "spPrizes_GetAll"(); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPrizes_GetAll"() FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPrizes_GetAll"() TO tour_responsible_group;
+
+
+--
+-- TOC entry 2937 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: FUNCTION "spPrizes_GetByTournament"("tournamentId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPrizes_GetByTournament"("tournamentId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPrizes_GetByTournament"("tournamentId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2938 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: FUNCTION "spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spPrizes_Insert"("PlaceNumber" integer, "PlaceName" character varying, "PrizeAmount" numeric, "PrizePercentage" double precision) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2939 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: FUNCTION "spTeamMembers_Insert"("TeamId" integer, "PersonId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTeamMembers_Insert"("TeamId" integer, "PersonId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTeamMembers_Insert"("TeamId" integer, "PersonId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2940 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: FUNCTION "spTeam_Insert"("TeamName" character varying); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTeam_Insert"("TeamName" character varying) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTeam_Insert"("TeamName" character varying) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2941 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: TABLE "Teams"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."Teams" TO mydaemon;
+
+
+--
+-- TOC entry 2942 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: FUNCTION "spTeams_GetAll"(); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTeams_GetAll"() FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTeams_GetAll"() TO tour_responsible_group;
+
+
+--
+-- TOC entry 2943 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: FUNCTION "spTeams_GetByTournament"("tournamentId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTeams_GetByTournament"("tournamentId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTeams_GetByTournament"("tournamentId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2944 (class 0 OID 0)
+-- Dependencies: 237
+-- Name: FUNCTION "spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTournamentEntry_Insert"("TournamentId" integer, "TeamId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2945 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: FUNCTION "spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTournamentPrizes_Insert"("TournamentId" integer, "PrizeId" integer) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2946 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: FUNCTION "spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric) FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTournament_Insert"("TournamentName" character varying, "EntryFee" numeric) TO tour_responsible_group;
+
+
+--
+-- TOC entry 2947 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: TABLE "Tournaments"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."Tournaments" TO mydaemon;
+
+
+--
+-- TOC entry 2948 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: FUNCTION "spTournaments_GetAll"(); Type: ACL; Schema: public; Owner: mydaemon
+--
+
+REVOKE ALL ON FUNCTION public."spTournaments_GetAll"() FROM PUBLIC;
+GRANT ALL ON FUNCTION public."spTournaments_GetAll"() TO tour_responsible_group;
+
+
+--
+-- TOC entry 2950 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: SEQUENCE "MatchEntry_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."MatchEntry_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."MatchEntry_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2952 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: SEQUENCE "Matches_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."Matches_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."Matches_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2954 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: SEQUENCE "People_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."People_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."People_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2956 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: SEQUENCE "Prizes_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."Prizes_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."Prizes_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2957 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: TABLE "TeamMembers"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."TeamMembers" TO mydaemon;
+
+
+--
+-- TOC entry 2959 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: SEQUENCE "TeamMembers_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."TeamMembers_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."TeamMembers_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2961 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: SEQUENCE "Teams_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."Teams_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."Teams_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2962 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: TABLE "TournamentEntries"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."TournamentEntries" TO mydaemon;
+
+
+--
+-- TOC entry 2964 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: SEQUENCE "TournamentEntry_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."TournamentEntry_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."TournamentEntry_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2965 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: TABLE "TournamentPrizes"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public."TournamentPrizes" TO mydaemon;
+
+
+--
+-- TOC entry 2967 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: SEQUENCE "TournamentPrizes_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."TournamentPrizes_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."TournamentPrizes_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 2969 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: SEQUENCE "Tournaments_id_seq"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE public."Tournaments_id_seq" TO mydaemon;
+GRANT SELECT ON SEQUENCE public."Tournaments_id_seq" TO tour_responsible_group;
+
+
+--
+-- TOC entry 1748 (class 826 OID 17316)
+-- Name: DEFAULT PRIVILEGES FOR SEQUENCES; Type: DEFAULT ACL; Schema: public; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON SEQUENCES  FROM postgres;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT USAGE ON SEQUENCES  TO mydaemon;
+
+
+--
+-- TOC entry 1747 (class 826 OID 17315)
+-- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON TABLES  FROM postgres;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT ON TABLES  TO mydaemon;
+
+
+-- Completed on 2019-04-25 15:48:36
 
 --
 -- PostgreSQL database dump complete
