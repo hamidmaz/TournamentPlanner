@@ -119,9 +119,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlannedLibrary\PlannedLibrary.csproj">
+    <ProjectReference Include="..\PlannedLibrary\PlannerLibrary.csproj">
       <Project>{d532ef5c-b0f8-44b0-bc31-8a0e5296cb93}</Project>
-      <Name>PlannedLibrary</Name>
+      <Name>PlannerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
